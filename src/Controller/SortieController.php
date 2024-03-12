@@ -17,22 +17,30 @@ use Symfony\Component\Routing\Attribute\Route;
 class SortieController extends AbstractController
 {
 
-    #[Route('/create/{id}', name: '_create',methods: ['GET','POST'])]
-    public function create(Participant $orga,EtatRepository $er,EntityManagerInterface $em,Request $request):response{
+    #[Route('/create', name: '_create',methods: ['GET','POST'])]
+    public function create(EtatRepository $er,EntityManagerInterface $em,Request $request):response{
         $sortie = new Sortie();
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $lieu = new Lieu();
-            $lieu->setName($form->get('lieu_name')->getData());
-            $lieu->setStreet($form->get('lieu_street')->getData());
-            $lieu->setLatitude($form->get('lieu_lat')->getData());
-            $lieu->setLongitude($form->get('lieu_long')->getData());
-            $lieu->setVille($form->get('lieu_city')->getData());
-            $sortie->setLieu($lieu);
-            $sortie->setOrganisateur($orga);
-            $sortie->setEtat($er->findOneBy(['id' => 2]));
-            $em->persist($lieu);
+            if(!$form->get('lieu')->getData()) {
+                if(!$form->get('lieu_name')->getData() || !$form->get('lieu_street')->getData() || !$form->get('lieu_lat')->getData() || !$form->get('lieu_long')->getData() || !$form->get('lieu_city')->getData()) {
+                    return $this->render('sortie/create.html.twig',['form' => $form->createView()]);
+                }
+                $lieu = new Lieu();
+                $lieu->setName($form->get('lieu_name')->getData());
+                $lieu->setStreet($form->get('lieu_street')->getData());
+                $lieu->setLatitude($form->get('lieu_lat')->getData());
+                $lieu->setLongitude($form->get('lieu_long')->getData());
+                $lieu->setVille($form->get('lieu_city')->getData());
+                $sortie->setLieu($lieu);
+                $em->persist($lieu);
+
+            }
+
+            $sortie->setOrganisateur($this->getUser());
+            $sortie->setEtat($er->findOneBy(['id' => 1]));
+
             $em->persist($sortie);
             $em->flush();
             return $this->redirectToRoute('app_zobi');
@@ -48,7 +56,7 @@ class SortieController extends AbstractController
        // $total = $entityManager->getRepository(Sortie::class)->count(['etat' => 'ouvert']);
 
         $sorties = $entityManager->getRepository(Sortie::class)->findBy(
-            ['etat' => 2]
+            ['etat' => 1]
         );
 
 //        $queryBuilder = $entityManager->createQueryBuilder();

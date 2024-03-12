@@ -16,7 +16,8 @@ body{
 
 
 /**-----------------PAGE CREATION SORTIE-----------------**/
-.blockBodyContainer{
+.lieu_form{
+    display: none;
 
 }
 /*

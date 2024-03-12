@@ -30,7 +30,7 @@
                         {{ sortie.participants.sortiesInscri|format('X') }}
                     {% endif %}
                 </td>#}
-                <td><a href="{{ url('profile_users', {'id': sortie.id}) }}">{{ sortie.organisateur.username }}</a></td>
+                <td><a href="{{ url('profile_users', {'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.username }}</a></td>
                 <td><a href="{{ url('home_detail', {'id': sortie.id}) }}">Afficher</a></td> }
             </tr>
         {% endfor %}

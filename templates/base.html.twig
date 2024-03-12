@@ -22,15 +22,20 @@
 
             <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
                 <li><a href="/" class="btn nav-link px-2 link-dark">Accueil</a></li>
-                <li><a href="{{ url('profile_user',{'id':1}) }}" class="btn nav-link px-2 link-dark"}>Profil</a></li>
-                <li><a href="{{ url('home_create',{'id':1}) }}" class="btn nav-link px-2 link-dark">Créer sortie+lieu</a></li>
+                <li><a href="{{ url('profile_user') }}" class="btn nav-link px-2 link-dark"}>Profil</a></li>
+                <li><a href="{{ url('home_create') }}" class="btn nav-link px-2 link-dark">Créer sortie+lieu</a></li>
                 <li><a href="#" class="btn nav-link px-2 link-dark">FAQs</a></li>
                 <li><a href="#" class="btn nav-link px-2 link-dark">About</a></li>
             </ul>
 
                 <div class="col-md-3 text-end">
-                    <button type="button" class="btn btn-outline-primary me-2">Login</button>
-                    <button type="button" class="btn btn-primary">Sign-up</button>
+                    {% if not is_granted('IS_AUTHENTICATED') %}
+                    <a type="button" href="{{ path('app_login') }}" class="btn btn-outline-primary me-2">Login</a>
+                        <a href="{{ path('app_register') }}" type="button" class="btn btn-primary">Sign-up</a>
+                    {% else %}
+                    <a type="button" href="{{ path('app_logout') }}" class="btn btn-outline-primary me-2">disconnect</a>
+                    {% endif %}
+
                 </div>
             </header>
         </div>

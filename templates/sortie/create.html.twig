@@ -9,6 +9,25 @@
         {{ form_row(form.maxInscriptionNb) }}
         {{ form_row(form.description) }}
         {{ form_row(form.siteOrga) }}
+        {{ form_row(form.lieu) }}
+    <div class="btn-primary btn" id="formlieubtn" onclick="function LieuForm() {
+        if(document.querySelector('#formlieubtn').innerHTML === 'Créer un lieu'){
+        document.querySelectorAll('.lieu_form').forEach(el => {
+        el.style.display = 'block';
+    });
+        document.querySelector('.lieu').style.display = 'none';
+        document.querySelector('#sortie_lieu').setAttribute('disabled',true)
+        document.querySelector('#formlieubtn').innerHTML='Choisir un lieu existant'
+    }else{
+        document.querySelectorAll('.lieu_form').forEach(el => {
+        el.style.display = 'none';
+    });
+        document.querySelector('.lieu').style.display = 'block';
+        document.querySelector('#sortie_lieu').removeAttribute('disabled');
+        document.querySelector('#formlieubtn').innerHTML='Créer un lieu'
+    }
+    }
+    LieuForm()">Créer un lieu</div>
         {{ form_row(form.lieu_name) }}
         {{ form_row(form.lieu_street) }}
         {{ form_row(form.lieu_long) }}

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Participant;
 use App\Form\EditProfileType;
+use App\Repository\ParticipantRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,10 +16,10 @@ use Symfony\Component\Routing\Attribute\Route;
 class ProfileController extends AbstractController
 {
 
-    #[Route('profile/{id}', name: '_user', requirements: ['id' => '[0-9]\d*'])]
-    public function profile(Participant $participant, Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    #[Route('profile', name: '_user')]
+    public function profile(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
-
+        $participant = $this->getUser();
         // Formulaire d'édition du profil (récupère l'id avec l'objet participant)
         $form = $this->createForm(EditProfileType::class, $participant);
         $form->handleRequest($request);

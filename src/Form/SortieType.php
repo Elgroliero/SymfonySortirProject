@@ -36,37 +36,51 @@ class SortieType extends AbstractType
                'label' => "Nombre d'inscrits MAX : "
             ])
             ->add('description')
-//            ->add('lieu', EntityType::class, [
-//                'label' => 'Lieu : ',
-//                'class' => Lieu::class,
-//                'choice_label' => 'id',
-//            ])
-                ->add('lieu_name', null, [
+            ->add('lieu', EntityType::class, [
+                'label' => 'Lieu : ',
+                'class' => Lieu::class,
+                'choice_label' => 'name',
+                'required' => false,
+                'row_attr' => ['class' => 'lieu'],
+                'placeholder' => ' --Choisir un lieu-- ',
+            ])
+            ->add('lieu_name', null, [
                     'label' => 'Nom du lieu : ',
                     'mapped' => false,
-                ])
+                    'required' => false,
+                'row_attr' => ['class' => 'lieu_form']
+            ])
             ->add('lieu_street', null, [
                 'label' => 'Rue : ',
                 'mapped' => false,
+                'required' => false,
+                'row_attr' => ['class' => 'lieu_form']
             ])
             ->add('lieu_lat', null, [
                 'label' => 'latitude : ',
                 'mapped' => false,
+                'required' => false,
+                'row_attr' => ['class' => 'lieu_form']
             ])
             ->add('lieu_long', null, [
                 'label' => 'longitude : ',
                 'mapped' => false,
+                'required' => false,
+                'row_attr' => ['class' => 'lieu_form']
             ])
             ->add('lieu_city', EntityType::class, [
                 'label'=>'Ville : ',
                 'class' => Ville::class,
                 'choice_label' => 'name',
                 'mapped' => false,
+                'required' => false,
+                'row_attr' => ['class' => 'lieu_form']
             ])
             ->add('siteOrga', EntityType::class, [
                 'label'=>'Site organisateur : ',
                 'class' => Site::class,
                 'choice_label' => 'name',
+                'placeholder' => ' --Choisir un site-- ',
             ])
             ->add('submit',SubmitType::class,[])
         ;
