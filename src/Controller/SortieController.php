@@ -37,7 +37,7 @@ class SortieController extends AbstractController
                 $em->persist($lieu);
 
             }
-
+            $sortie->addParticipant($this->getUser());
             $sortie->setOrganisateur($this->getUser());
             $sortie->setEtat($er->findOneBy(['id' => 1]));
 
