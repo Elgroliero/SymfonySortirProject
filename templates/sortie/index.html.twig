@@ -23,8 +23,15 @@
                 <td>{{ sortie.dateTimeStart|date('d/m/y H:i') }}</td>
                 <td>{{ sortie.dateInscriptionLimit|date('d/m/y H:i') }}</td>
                 <td>{{ sortie.maxInscriptionNb }}</td>
-                <td>test</td>
-                {# <td><a href="{{ url('sortie_details', {'id': sortie.id}) }}">Voir</a></td> #}
+                <td>{{ sortie.etat.name }}</td>
+                <td></td>
+                {#  <td>
+                    {% if sortie.participants.sortiesInscri is not null %}
+                        {{ sortie.participants.sortiesInscri|format('X') }}
+                    {% endif %}
+                </td>#}
+                <td><a href="{{ url('profile_users', {'id': sortie.id}) }}">{{ sortie.organisateur.username }}</a></td>
+                <td><a href="{{ url('home_detail', {'id': sortie.id}) }}">Afficher</a></td> }
             </tr>
         {% endfor %}
         </tbody>
