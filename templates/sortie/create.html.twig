@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    {% form_theme form 'bootstrap_5_layout.html.twig' %}
+    {{form_start(form) }}
+        {{ form_row(form.name) }}
+        {{ form_row(form.dateTimeStart) }}
+        {{ form_row(form.duration) }}
+        {{ form_row(form.dateInscriptionLimit) }}
+        {{ form_row(form.maxInscriptionNb) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.siteOrga) }}
+        {{ form_row(form.lieu_name) }}
+        {{ form_row(form.lieu_street) }}
+        {{ form_row(form.lieu_long) }}
+        {{ form_row(form.lieu_lat) }}
+        {{ form_row(form.lieu_city) }}
+    {{ form_end(form) }}
+{% endblock %}
