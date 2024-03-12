@@ -39,11 +39,11 @@ class SortieController extends AbstractController
             }
             $sortie->addParticipant($this->getUser());
             $sortie->setOrganisateur($this->getUser());
-            $sortie->setEtat($er->findOneBy(['id' => 1]));
+            $sortie->setEtat($er->findOneBy(['id' => 2]));
 
             $em->persist($sortie);
             $em->flush();
-            return $this->redirectToRoute('app_zobi');
+            return $this->redirectToRoute('home_home');
         }
         return $this->render('sortie/create.html.twig',['form' => $form->createView()]);
     }
@@ -56,7 +56,7 @@ class SortieController extends AbstractController
        // $total = $entityManager->getRepository(Sortie::class)->count(['etat' => 'ouvert']);
 
         $sorties = $entityManager->getRepository(Sortie::class)->findBy(
-            ['etat' => 1]
+            ['etat' => 2]
         );
 
 //        $queryBuilder = $entityManager->createQueryBuilder();
