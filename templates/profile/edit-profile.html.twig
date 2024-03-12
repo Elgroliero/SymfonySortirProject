@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme profile_form 'bootstrap_5_layout.html.twig' %}
+
+{% block body %}
+    <h2>Mon profil</h2>
+    <div class="flex justify-content-center">
+            <form method="post">
+                {{ form_start(profile_form) }}
+                    {{ form_row(profile_form.username) }}
+                    {{ form_row(profile_form.firstname) }}
+                    {{ form_row(profile_form.lastname) }}
+                    {{ form_row(profile_form.phoneNumber) }}
+                    {{ form_row(profile_form.email) }}
+                    {{ form_row(profile_form.plainPassword) }}
+                    {{ form_row(profile_form.site) }}
+                    {# TODO: Ajouter la photo de profil plus tard #}
+                {{ form_end(profile_form) }}
+                <button type="submit" class="btn btn-primary">Enregistrer</button>
+                <button type="reset" class="btn btn-secondary">Annuler</button>
+            </form>
+    </div>
+
+{% endblock %}
