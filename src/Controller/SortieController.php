@@ -41,7 +41,7 @@ class SortieController extends AbstractController
     }
 
 //    public function listSorties(EntityManagerInterface $entityManager, Request $request): Response
-    #[Route(path: '', name: 'home', methods: ['GET'])]
+    #[Route(path: '', name: '_home', methods: ['GET'])]
     public function listSorties(EntityManagerInterface $entityManager): Response
     {
 
