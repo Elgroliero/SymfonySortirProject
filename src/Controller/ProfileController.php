@@ -43,7 +43,7 @@ class ProfileController extends AbstractController
             // Message flash de succes
             $this->addFlash('success', 'Votre profil a bien été mis à jour');
             //TODO: Redirection vers la page d'accueil
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('home_home');
         }
 
         return $this->render('profile/edit-profile.html.twig', [
