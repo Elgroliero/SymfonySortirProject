@@ -1,1 +1,60 @@
 {%  extends "base.html.twig" %}
+
+{% block body %}
+    <h1 class="justify-content-center">Afficher une sortie</h1>
+
+    <table class="table">
+            <tbody>
+            <tr>
+                <th scope="row" style="min-width: 200px">Nom de la sortie : </th>
+                <td>{{ sortie.name }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Date et heure de la sortie : </th>
+                <td>{{ sortie.dateTimeStart|date ('d/m/y H:i') }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Date limite d'inscription : </th>
+                <td>{{ sortie.dateInscriptionLimit|date ('d/m/y H:i') }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Nombre de places : </th>
+                <td>{{ sortie.maxInscriptionNb }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Durée : </th>
+                <td>{{ sortie.duration }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Description et infos : </th>
+                <td>{{ sortie.description }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Lieu : </th>
+                <td>{{ sortie.lieu.name }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Rue : </th>
+                <td>{{ sortie.lieu.street }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Ville : </th>
+                <td>{{ sortie.lieu.ville.name }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Code postal : </th>
+                <td>{{ sortie.lieu.ville.postalCode }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Latitude : </th>
+                <td>{{ sortie.lieu.latitude }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Longitude : </th>
+                <td>{{ sortie.lieu.longitude }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+{% endblock %}

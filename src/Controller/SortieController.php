@@ -31,7 +31,7 @@ class SortieController extends AbstractController
             $lieu->setVille($form->get('lieu_city')->getData());
             $sortie->setLieu($lieu);
             $sortie->setOrganisateur($orga);
-            $sortie->setEtat($er->findOneBy(['id' => 1]));
+            $sortie->setEtat($er->findOneBy(['id' => 2]));
             $em->persist($lieu);
             $em->persist($sortie);
             $em->flush();
@@ -48,7 +48,7 @@ class SortieController extends AbstractController
        // $total = $entityManager->getRepository(Sortie::class)->count(['etat' => 'ouvert']);
 
         $sorties = $entityManager->getRepository(Sortie::class)->findBy(
-            ['etat' => 1]
+            ['etat' => 2]
         );
 
 //        $queryBuilder = $entityManager->createQueryBuilder();
