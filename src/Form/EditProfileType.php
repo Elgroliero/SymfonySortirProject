@@ -10,6 +10,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\ResetType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -35,6 +37,7 @@ class EditProfileType extends AbstractType
             ])
             ->add('phoneNumber', TextType::class, [
                 'label' => 'Téléphone',
+                'required' => false,
             ])
             ->add('site', EntityType::class, [
                 'label' => 'Site de rattachement',
@@ -62,6 +65,12 @@ class EditProfileType extends AbstractType
                     'label' => 'Confirmation',
                 ],
                 'invalid_message' => 'Les mots de passe ne sont pas identiques',
+            ])
+            ->add('submit', SubmitType::class, [
+                'label' => 'Enregistrer',
+            ])
+            ->add('reset', ResetType::class, [
+                'label' => 'Annuler',
             ]);
             //TODO: Ajouter la photo de profil ensuite (donc un fileType)
     }

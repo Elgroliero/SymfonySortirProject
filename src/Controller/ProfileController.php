@@ -11,11 +11,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/profile', name: 'profile')]
+#[Route('/', name: 'profile')]
 class ProfileController extends AbstractController
 {
 
-    #[Route('/my-profile/{id}', name: '_user')]
+    #[Route('profile/{id}', name: '_user', requirements: ['id' => '[0-9]\d*'])]
     public function profile(Participant $participant, Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
 
@@ -52,9 +52,16 @@ class ProfileController extends AbstractController
         ]);
     }
 
-    #[Route('/users-profile/{id}', name: '_users')]
-    public function usersProfile(Participant $participant): Response
+
+    #[Route('user/{id}', name: '_users', requirements: ['id' => '[0-9]\d*'])]
+    public function usersProfile(EntityManagerInterface $entityManager, int $id): Response
     {
+        $participant = $entityManager->getRepository(Participant::class)->getParticipantById($id);
+
+        //Si aucun participant n'a été trouve, lance une exception
+        if(!$participant) {
+            throw $this->createNotFoundException('Le participant n\'a pas été trouvé');
+        }
         return $this->render('profile/users-profile.html.twig', [
             'participant' => $participant
         ]);

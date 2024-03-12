@@ -1,1 +1,26 @@
 {% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h2>{{ participant.username }}</h2>
+    {# TODO: Ajouter la photo de profil #}
+    <div class="flex justify-content-center">
+        <p>
+            Prénom : {{ participant.firstname }}
+        </p>
+        <p>
+            Nom : {{ participant.lastname }}
+        </p>
+        <p>
+            Téléphone : {{ participant.phoneNumber }}
+        </p>
+        <p>
+            Email : {{ participant.email }}
+        </p>
+        <p>
+            Site de rattachement: {{ participant.site.name }}
+        </p>
+        <a class="btn btn-primary" href="{{ path('home_home') }}">Retour</a>
+    </div>
+
+{%  endblock %}

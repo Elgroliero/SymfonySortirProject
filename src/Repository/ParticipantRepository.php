@@ -38,6 +38,22 @@ class ParticipantRepository extends ServiceEntityRepository implements PasswordU
         $this->getEntityManager()->flush();
     }
 
+    /**
+     * Méthode de récupation d'un participant par son id
+     * @param int $id
+     * @return mixed
+     */
+    public function getParticipantById(int $id)
+    {
+        $queryBuilder = $this->createQueryBuilder('participant')
+            ->andWhere('participant.id = :id')
+            ->setParameter('id', $id)
+            ->andWhere('participant.active = :active')
+            ->setParameter('active', true);
+
+        return $queryBuilder->getQuery()->getOneOrNullResult();
+    }
+
     //    /**
     //     * @return Participant[] Returns an array of Participant objects
     //     */

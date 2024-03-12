@@ -34,6 +34,7 @@ class RegistrationController extends AbstractController
 
             //rôle User par défaut pour les utilisateurs
             $participant->setRoles(['ROLE_USER']);
+            $participant->setActive(1);
 
             $entityManager->persist($participant);
             $entityManager->flush();
