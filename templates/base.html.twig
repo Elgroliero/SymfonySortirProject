@@ -15,17 +15,17 @@
     </head>
     <body>
     <div class="container w-100 p-0 m-1">
-        <header class=" d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom btn">
+        <header class=" d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
             <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none ">
                 LOGO
             </a>
 
             <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-                <li><a href="#" class="nav-link px-2 link-dark">Accueil</a></li>
-                <li><a href="#" class="nav-link px-2 link-dark"}>Profil</a></li>
-                <li><a href="#" class="nav-link px-2 link-dark">Pricing</a></li>
-                <li><a href="#" class="nav-link px-2 link-dark">FAQs</a></li>
-                <li><a href="#" class="nav-link px-2 link-dark">About</a></li>
+                <li><a href="/" class="btn nav-link px-2 link-dark">Accueil</a></li>
+                <li><a href="{{ url('profile_user',{'id':1}) }}" class="btn nav-link px-2 link-dark"}>Profil</a></li>
+                <li><a href="{{ url('home_create',{'id':1}) }}" class="btn nav-link px-2 link-dark">Créer sortie+lieu</a></li>
+                <li><a href="#" class="btn nav-link px-2 link-dark">FAQs</a></li>
+                <li><a href="#" class="btn nav-link px-2 link-dark">About</a></li>
             </ul>
 
             <div class="col-md-3 text-end">

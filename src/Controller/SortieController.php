@@ -48,7 +48,7 @@ class SortieController extends AbstractController
        // $total = $entityManager->getRepository(Sortie::class)->count(['etat' => 'ouvert']);
 
         $sorties = $entityManager->getRepository(Sortie::class)->findBy(
-            ['etat' => 2]
+            ['etat' => 1]
         );
 
 //        $queryBuilder = $entityManager->createQueryBuilder();
