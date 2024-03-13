@@ -7,7 +7,7 @@
 {% block body %}
     <h1>Inscription</h1>
 
-    <div class="flex justify-content-center">
+
         <form method="post">
             {{ form_start(registrationForm) }}
             {{ form_row(registrationForm.firstname) }}
@@ -18,10 +18,9 @@
             {{ form_row(registrationForm.phoneNumber) }}
             {{ form_row(registrationForm.site) }}
             {# TODO: Ajouter la photo de profil plus tard #}
-            <button type="submit" class="btn btn-primary">Inscription</button>
-            <button type="reset" class="btn btn-secondary">Annuler</button>
+
             {{ form_end(registrationForm) }}
 
         </form>
-    </div>
+
 {% endblock %}
