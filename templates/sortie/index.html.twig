@@ -3,6 +3,27 @@
 
 {% block body %}
     <h1 class="justify-content-center">Accueil</h1>
+    <form action="{{ path('home_home') }}" method="post">
+        <div class="form-group">
+            <label for="filtre-site">Site de rattachement</label>
+            <select class="form-control" id="filtre-site" name="filtre-site">
+                {% for site in sites %}
+                    <option value="{{ site.id }}">{{ site.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="filtre-nom">Le nom de la sortie contient :</label>
+            <input name="filtre-nom" id="filtre-nom" type="search">
+        </div>
+        <div class="form-group">
+            <label for="filtre-date">Entre :</label>
+            <input name="filtre-date" id="filtre-date" type="date">
+            <label for="filtre-date2">et :</label>
+            <input name="filtre-date2" id="filtre-date2" type="date">
+        </div>
+        <button type="submit" class="btn btn-primary" name="filtre">Rechercher</button>
+    </form>
     <table class="table">
         <thead>
         <tr>

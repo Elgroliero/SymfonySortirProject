@@ -4,11 +4,14 @@ namespace App\Controller;
 
 use App\Entity\Lieu;
 use App\Entity\Participant;
+use App\Entity\Site;
 use App\Entity\Sortie;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;
+use App\Repository\SiteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -19,6 +22,60 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class SortieController extends AbstractController
 {
 
+//    public function listSorties(EntityManagerInterface $entityManager, Request $request): Response
+    #[Route(path: '', name: '_home')]
+    public function listSorties(EntityManagerInterface $entityManager, SiteRepository $site, Request $request): Response
+    {
+
+       // $total = $entityManager->getRepository(Sortie::class)->count(['etat' => 'ouvert'])
+
+        $sites = $site->findAll();
+
+        //Validation du formulaire de recherche par site
+        if($_POST) {
+            $site = $request->get('filtre-site');
+            $nom = $request->get('filtre-nom');
+            $date = $request->get('filtre-date');
+            $date2 = $request->get('filtre-date2');
+            $queryBuilder = $entityManager->getRepository(Sortie::class)->createQueryBuilder('s');
+            if($site) {
+                $queryBuilder
+                    ->andWhere('s.siteOrga = :site')
+                    ->setParameter('site', $site);
+            }
+            if($nom) {
+                $queryBuilder
+                    ->andWhere('s.name LIKE :nom')
+                    ->setParameter('nom', '%'.$nom.'%');
+            }
+            if($date && $date2) {
+                $queryBuilder
+                    ->andWhere('s.dateTimeStart BETWEEN :date AND :date2')
+                    ->setParameter('date', $date)
+                    ->setParameter('date2', $date2);
+            }
+            $sorties = $queryBuilder->getQuery()->getResult();
+        } else {
+            $sorties = $entityManager->getRepository(Sortie::class)->findBy(
+                ['etat' => 2]
+            );
+        }
+
+        return $this->render('sortie/index.html.twig', compact('sorties', 'sites'));
+
+    }
+
+    #[Route('/detail/{id}', name: '_detail', requirements: ['id' => '\d+'])]
+    public function details(?Sortie $sortie): Response
+    {
+        if (!$sortie || !$sortie->getDateTimeStart('ouvert')) {
+            throw $this->createNotFoundException('Cette sortie n\'existe pas/plus');
+        }
+
+        return $this->render('sortie/details.html.twig', [
+            'sortie' => $sortie
+        ]);
+    }
     #[Route('/create', name: '_create',methods: ['GET','POST'])]
     public function create(EtatRepository $er,EntityManagerInterface $em,Request $request):response{
         $sortie = new Sortie();
@@ -49,40 +106,6 @@ class SortieController extends AbstractController
             return $this->redirectToRoute('home_home');
         }
         return $this->render('sortie/create.html.twig',['form' => $form->createView()]);
-    }
-
-//    public function listSorties(EntityManagerInterface $entityManager, Request $request): Response
-    #[Route(path: '', name: '_home', methods: ['GET'])]
-    public function listSorties(EntityManagerInterface $entityManager): Response
-    {
-
-       // $total = $entityManager->getRepository(Sortie::class)->count(['etat' => 'ouvert']);
-
-        $sorties = $entityManager->getRepository(Sortie::class)->findBy(
-            ['etat' => 2]
-        );
-
-//        $queryBuilder = $entityManager->createQueryBuilder();
-//        $sorties = $queryBuilder->select('s')
-//            ->from('Sortie','s')
-//            ->where($queryBuilder->expr()->isNotNull('s.name'))
-//            ->getQuery()->getResult();
-//
-        return $this->render('sortie/index.html.twig', [
-                'sorties' => $sorties
-       ]);
-    }
-
-    #[Route('/detail/{id}', name: '_detail', requirements: ['id' => '\d+'])]
-    public function details(?Sortie $sortie): Response
-    {
-        if (!$sortie || !$sortie->getDateTimeStart('ouvert')) {
-            throw $this->createNotFoundException('Cette sortie n\'existe pas/plus');
-        }
-
-        return $this->render('sortie/details.html.twig', [
-            'sortie' => $sortie
-        ]);
     }
 
     #[Route('/delete/{id}', name: '_delete', requirements: ['id' => '\d+'])]
