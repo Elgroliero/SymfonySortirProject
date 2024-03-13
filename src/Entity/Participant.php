@@ -14,7 +14,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\Entity(repositoryClass: ParticipantRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_USERNAME', fields: ['username'])]
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -23,8 +22,8 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180)]
-    #[Assert\NotBlank()]
-    #[Assert\Email(message: 'The email {{ value }} is not a valid email.') ]
+    #[Assert\Email(message: 'Veuillez entrer une adresse email valide')]
+    #[Assert\NotBlank(message: 'Veuillez entrer votre email')]
     private ?string $email = null;
 
     /**
@@ -37,17 +36,14 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
-    #[Assert\NotBlank()]
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank()]
-    #[Assert\Length(min: 3)]
+    #[Assert\NotBlank(message: 'Veuillez entrer votre nom')]
     private ?string $lastname = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank()]
-    #[Assert\Length(min: 3)]
+    #[Assert\NotBlank(message: 'Veuillez entrer votre prenom')]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -57,8 +53,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     private ?bool $active = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank()]
-    #[Assert\Length(min: 3)]
+    #[Assert\NotBlank(message: 'Veuillez entrer votre pseudo')]
     private ?string $username = null;
 
     #[ORM\ManyToOne(inversedBy: 'participants')]
