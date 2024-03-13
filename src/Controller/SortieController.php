@@ -41,7 +41,8 @@ class SortieController extends AbstractController
             }
             $sortie->addParticipant($this->getUser());
             $sortie->setOrganisateur($this->getUser());
-            $sortie->setEtat($er->findOneBy(['id' => 2]));
+
+            $sortie->setEtat($er->findOneBy(['id' => $request->get('etat')]));
 
             $em->persist($sortie);
             $em->flush();
@@ -83,4 +84,25 @@ class SortieController extends AbstractController
             'sortie' => $sortie
         ]);
     }
+
+    #[Route('/delete/{id}', name: '_delete', requirements: ['id' => '\d+'])]
+    public function deleteSortie(Sortie $sortie, EntityManagerInterface $em,EtatRepository $er) : Response{
+
+        if ($_POST) {
+
+            if ($sortie->getOrganisateur() != $this->getUser()) {
+                throw $this->createNotFoundException('Vous n\'avez pas le droit de supprimer cette sortie');
+            }
+            $sortie->setEtat($er->findOneBy(['id' => 6]));
+            $sortie->setMotif($_POST['motif']);
+            $em->persist($sortie);
+            $em->flush();
+            return $this->redirectToRoute('home_home');
+        }
+        return $this->render('sortie/delete.html.twig',[
+           'sortie' => $sortie
+        ]);
+    }
+
+
 }

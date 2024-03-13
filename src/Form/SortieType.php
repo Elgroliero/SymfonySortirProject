@@ -82,7 +82,6 @@ class SortieType extends AbstractType
                 'choice_label' => 'name',
                 'placeholder' => ' --Choisir un site-- ',
             ])
-            ->add('submit',SubmitType::class,[])
         ;
     }
 

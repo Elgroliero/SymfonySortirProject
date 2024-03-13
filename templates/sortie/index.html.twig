@@ -32,6 +32,9 @@
                 <td><a href="{{ url('profile_users', {'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.username }}</a></td>
                 <td>
                     <a href="{{ url('home_detail', {'id': sortie.id}) }}">Afficher</a>
+                    {% if app.user.id == sortie.organisateur.id %}
+                    <a href="{{ path('home_delete', {'id': sortie.id}) }}">Annuler</a>
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %}

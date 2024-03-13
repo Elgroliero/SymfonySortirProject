@@ -33,5 +33,7 @@
         {{ form_row(form.lieu_long) }}
         {{ form_row(form.lieu_lat) }}
         {{ form_row(form.lieu_city) }}
+    <button type="submit" formaction="{{ url('home_create',{'etat' : 1}) }}">Creer</button>
+    <button type="submit" formaction="{{ url('home_create',{'etat' : 2}) }}">Publier</button>
     {{ form_end(form) }}
 {% endblock %}
