@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% form_theme profile_form 'bootstrap_5_layout.html.twig' %}
+{% form_theme profile_form 'bootstrap_4_layout.html.twig' %}
 
 {% block body %}
     <h2>Mon profil</h2>
@@ -8,7 +8,9 @@
             <form method="post">
                 {{ form_start(profile_form) }}
                     {{ form_row(profile_form.username) }}
-                    {{ form_row(profile_form.firstname) }}
+                    {{ form_label(profile_form.firstname) }}
+                    {{ form_widget(profile_form.firstname) }}
+                    {{ form_errors(profile_form.lastname) }}
                     {{ form_row(profile_form.lastname) }}
                     {{ form_row(profile_form.phoneNumber) }}
                     {{ form_row(profile_form.email) }}

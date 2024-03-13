@@ -5,22 +5,28 @@
     <h2>{{ participant.username }}</h2>
     {# TODO: Ajouter la photo de profil #}
     <div class="flex justify-content-center">
-        <p>
-            Prénom : {{ participant.firstname }}
-        </p>
-        <p>
-            Nom : {{ participant.lastname }}
-        </p>
-        <p>
-            Téléphone : {{ participant.phoneNumber }}
-        </p>
-        <p>
-            Email : {{ participant.email }}
-        </p>
-        <p>
-            Site de rattachement: {{ participant.site.name }}
-        </p>
+        <table class="table">
+            <tr>
+                <th scope="row">Prénom : </th>
+                <td>{{ participant.firstname }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Nom : </th>
+                <td>{{ participant.lastname }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Téléphone : </th>
+                <td>{{ participant.phoneNumber }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Email : </th>
+                <td>{{ participant.email }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Site de rattachement : </th>
+                <td>{{ participant.site.name }}</td>
+            </tr>
+        </table>
         <a class="btn btn-primary" href="{{ path('home_home') }}">Retour</a>
     </div>
-
 {%  endblock %}

@@ -1,7 +1,7 @@
 {%  extends "base.html.twig" %}
 
 {% block body %}
-    <h1 class="justify-content-center">Afficher une sortie</h1>
+    <h1 class="justify-content-center">La sortie</h1>
 
     <table class="table">
             <tbody>
@@ -55,6 +55,22 @@
             </tr>
         </tbody>
     </table>
-
+    <h2 class="justify-content-center">Participants</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Pseudo</th>
+            <th scope="col">Nom</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for participant in sortie.participants %}
+            <tr>
+                <td>{{ participant.username }}</td>
+                <td>{{ participant.firstname }} {{ participant.lastname|upper }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
 {% endblock %}

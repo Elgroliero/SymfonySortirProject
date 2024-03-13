@@ -25,6 +25,15 @@ class EditProfileType extends AbstractType
         $builder
             ->add('firstname', TextType::class, [
                 'label' => 'Prénom',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez entrer un prénom',
+                    ]),
+                    new Length([
+                        'min' => 3,
+                        'minMessage' => 'Le prénom doit contenir au moins {{ limit }} caractères',
+                    ])
+                ],
             ])
             ->add('lastname', TextType::class, [
                 'label' => 'Nom',
@@ -34,6 +43,7 @@ class EditProfileType extends AbstractType
             ])
             ->add('email', EmailType::class, [
                 'label' => 'Email',
+                //TODO: ajouter contrainte validation mail et entités
             ])
             ->add('phoneNumber', TextType::class, [
                 'label' => 'Téléphone',

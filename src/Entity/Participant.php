@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -22,6 +23,8 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180)]
+    #[Assert\NotBlank()]
+    #[Assert\Email(message: 'The email {{ value }} is not a valid email.') ]
     private ?string $email = null;
 
     /**
@@ -34,12 +37,17 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Assert\NotBlank()]
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
+    #[Assert\Length(min: 3)]
     private ?string $lastname = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
+    #[Assert\Length(min: 3)]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -49,6 +57,8 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     private ?bool $active = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
+    #[Assert\Length(min: 3)]
     private ?string $username = null;
 
     #[ORM\ManyToOne(inversedBy: 'participants')]
