@@ -19,7 +19,6 @@
             <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none ">
                 LOGO
             </a>
-
             <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
                 <li><a href="/" class="btn nav-link px-2 link-dark">Accueil</a></li>
                 <li><a href="{{ url('profile_user') }}" class="btn nav-link px-2 link-dark"}>Profil</a></li>
@@ -30,11 +29,16 @@
 
                 <div class="col-md-3 text-end">
                     {% if not is_granted('IS_AUTHENTICATED') %}
-                    <a type="button" href="{{ path('app_login') }}" class="btn btn-outline-primary me-2">Login</a>
-                        <a href="{{ path('app_register') }}" type="button" class="btn btn-primary">Sign-up</a>
+                    <a type="button" href="{{ path('app_login') }}" class="btn btn-outline-primary me-2">Connexion</a>
+                        <a href="{{ path('app_register') }}" type="button" class="btn btn-primary">Inscription</a>
                     {% else %}
-                    <a type="button" href="{{ path('app_logout') }}" class="btn btn-outline-primary me-2">disconnect</a>
+                    <a type="button" href="{{ path('app_logout') }}" class="btn btn-outline-primary me-2">Déconnexion</a>
                     {% endif %}
+                    {% for flash_message in app.flashes('warning') %}
+                        <div class="alert alert-warning" role="alert">
+                            {{ flash_message }}
+                        </div>
+                    {% endfor %}
 
                 </div>
             </header>
@@ -50,7 +54,6 @@
                     </a>
                     <span class="mb-3 mb-md-0 text-muted">© {{ "now"|date('Y')}} ENI, Inc</span>
                 </div>
-
                 <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
                     <li class="ms-3"><a class="text-muted" href="#"> <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" class="bi" height="24" width="24" stroke-width="2" viewBox="24 24">
                                 <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"></path>

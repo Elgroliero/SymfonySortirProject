@@ -11,7 +11,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+#[IsGranted('ROLE_USER')] // Permet de dire que l'utilisateur doit être connecté
 #[Route('/', name: 'profile')]
 class ProfileController extends AbstractController
 {
@@ -19,6 +21,7 @@ class ProfileController extends AbstractController
     #[Route('profile', name: '_user')]
     public function profile(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
+
         $participant = $this->getUser();
         // Formulaire d'édition du profil (récupère l'id avec l'objet participant)
         $form = $this->createForm(EditProfileType::class, $participant);
@@ -57,6 +60,7 @@ class ProfileController extends AbstractController
     #[Route('user/{id}', name: '_users', requirements: ['id' => '[0-9]\d*'])]
     public function usersProfile(EntityManagerInterface $entityManager, int $id): Response
     {
+
         $participant = $entityManager->getRepository(Participant::class)->getParticipantById($id);
 
         //Si aucun participant n'a été trouve, lance une exception
