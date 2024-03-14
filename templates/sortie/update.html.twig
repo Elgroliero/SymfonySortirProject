@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% form_theme form 'bootstrap_5_layout.html.twig' %}
+    {{form_start(form) }}
+    <a href="{{ url('home_publish',{'id':sortie.id}) }}" class="btn btn-primary">publier</a>
+    {{ form_end(form) }}
+{% endblock %}
+

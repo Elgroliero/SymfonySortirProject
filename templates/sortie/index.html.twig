@@ -4,7 +4,7 @@
 {% block body %}
     <h1 class="justify-content-center">Accueil</h1>
     <div class="d-flex justify-content-center">
-        {{ form_start(formFilter) }}
+           {{ form_start(formFilter) }}
         <div>
             {#  {{ form_row(formFilter.site) }}
             {{ form_row(formFilter.search) }}
@@ -51,7 +51,11 @@
                 <td>
                     <a href="{{ url('home_detail', {'id': sortie.id}) }}" class="btn btn-primary">Afficher</a>
                     {% if app.user.id == sortie.organisateur.id %}
+                        {% if sortie.etat.name == 'Ouverte' %}
                     <a href="{{ path('home_delete', {'id': sortie.id}) }}" class="btn btn-danger">Annuler</a>
+                            {% else %}
+                            <a href="{{ path('home_update', {'id' : sortie.id}) }}" class="btn btn-secondary">Modifier</a>
+                            {% endif %}
                     {% endif %}
                     {% if app.user not in sortie.participants %}
                         <a href="{{ url('home_register',{'id':sortie.id}) }}" class="btn btn-primary"> s'inscrire</a>

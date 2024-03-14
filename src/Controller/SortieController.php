@@ -30,9 +30,7 @@ class SortieController extends AbstractController
     {
 
        // $total = $entityManager->getRepository(Sortie::class)->count(['etat' => 'ouvert'])
-        $sorties = $entityManager->getRepository(Sortie::class)->findBy(
-            ['etat' => 2]
-        );
+        $sorties = $entityManager->getRepository(Sortie::class)->findByStates($this->getUser());
 
         $formFilter = $this->createForm(SortieFiltreType::class);
         $formFilter->handleRequest($request);
@@ -43,6 +41,8 @@ class SortieController extends AbstractController
         if($formFilter->isSubmitted() && $formFilter->isValid()){
             $data = $formFilter->getData();
             $sorties = $sortieRepo->findSortiesbyFilter($data, $userID);
+        }else{
+            $sorties = $entityManager->getRepository(Sortie::class)->findByStates($this->getUser());
         }
 
         return $this->render('sortie/index.html.twig', [
@@ -133,6 +133,23 @@ class SortieController extends AbstractController
             $this->addFlash('danger','Annulation echouée');
         }
         return $this->redirectToRoute('home_home');
+    }
+
+    #[Route('/update/{id}', name: '_update', requirements: ['id' => '\d+'])]
+    public function updateSortie(Sortie $sortie,Request $request) : Response{
+    $form = $this->createForm(SortieType::class, $sortie);
+    $form->handleRequest($request);
+
+        return $this->render('sortie/update.html.twig',[
+            'form' => $form->createView(),
+            'sortie' => $sortie
+        ]);
+    }
+
+    #[Route('/publish/{id}', name: '_publish', requirements: ['id' => '\d+'])]
+    public function publishSortie(Sortie $sortie,EntityManagerInterface $em,SortieRepository $sortieRepository){
+         $sortieRepository->publish($sortie,$em);
+         return $this->redirectToRoute('home_home');
     }
 
 }

@@ -2,11 +2,13 @@
 
 namespace App\Repository;
 
+use App\Entity\Etat;
 use App\Entity\Participant;
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+
 
 /**
  * @extends ServiceEntityRepository<Sortie>
@@ -24,10 +26,9 @@ class SortieRepository extends ServiceEntityRepository
     }
 
     public function subscribe(Sortie $entity,EntityManagerInterface $entityManager, Participant $participant): bool{
-        if(!($entity->getParticipants()->count()<$entity->getMaxInscriptionNb())|| $entity->getDateInscriptionLimit()<new \DateTime('now')){
+        if(!($entity->getParticipants()->count()<$entity->getMaxInscriptionNb()&& ($entity->getEtat()->getName()==='Ouverte'))){
             return false;
         }
-
         $entity->addParticipant($participant);
        $entityManager->persist($entity);
        $entityManager->flush();
@@ -35,7 +36,7 @@ class SortieRepository extends ServiceEntityRepository
     }
 
     public function unSubscribe(Sortie $entity,EntityManagerInterface $entityManager, Participant $participant): bool{
-        if(!(array_search($participant, $entity->getParticipants()->toArray()))||$entity->getDateTimeStart()<new \DateTime('now')){
+        if(!($entity->getEtat()->getName()==='Ouverte')){
             return false;
         }
        $entity->removeParticipant($participant);
@@ -44,8 +45,53 @@ class SortieRepository extends ServiceEntityRepository
        return true;
     }
 
-    public function updateSortieState(Sortie $entity): bool{
+    public function updateSortieState($tabSortie,EntityManagerInterface $entityManager,EtatRepository $etatRepository): bool
+    {
+        foreach ($tabSortie as $entity) {
+            if ($entity->getEtat()->getName() === 'Ouverte') {
+                if ($entity->getDateInscriptionLimit() < new \DateTime('now')) {
+                    $entity->setEtat($etatRepository->findOneBy(['name' => 'Clôturée']));
 
+                }
+            }
+            if ($entity->getEtat()->getName() === 'Clôturée') {
+
+                if ($entity->getDateTimeStart() < new \DateTime('now')){
+                    $entity->setEtat($etatRepository->findOneBy(['name' => 'Passée']));
+                }
+            }
+
+
+            if ($entity->getEtat()->getName() === 'Passée') {
+                $old = new \DateTime('now');
+                if ($entity->getDateTimeStart() < $old->modify('+1 month')) {
+                    $entity->setEtat($etatRepository->findOneBy(['name' => 'Archivée']));
+                }
+            }
+
+            $entityManager->persist($entity);
+            $entityManager->flush();
+        }
+        return true;
+    }
+
+    public function findByStates(Participant $participant){
+        return $this->createQueryBuilder('s')
+            ->orWhere("s.etat = 2")
+            ->orWhere("s.etat = 3")
+            ->orWhere("s.etat = 4")
+            ->orWhere("s.etat = 5")
+            ->orWhere("s.etat = 6")
+            ->orWhere("s.etat = 1 and s.organisateur = :id")
+            ->setParameter('id', $participant->getId())
+            ->getQuery()
+        ->getResult();
+    }
+
+    public function publish(Sortie $entity,EntityManagerInterface $entityManager): bool{
+        $entity->setEtat($entityManager->getRepository(Etat::class)->findOneBy(['name' => 'Ouverte']));
+        $entityManager->persist($entity);
+        $entityManager->flush();
         return true;
     }
 
@@ -63,58 +109,62 @@ class SortieRepository extends ServiceEntityRepository
                     ->setParameter('site', $data['site']);
             }
 
-//            //filtre pour la recherche par nom
-//            if(!empty($data['search'])){
-//                $query->andWhere('s.name LIKE :search')
-//                    ->setParameter('search', '%'.$data['search'].'%');
-//            }
-//
-//            //filtre pour la recherche par date de début
-//            if(!empty($data['start_date']) && empty($data['end_date'])){
-//                $format_start_date = date_format($data['start_date'], 'Y-m-d H:i:s');
-//                $query->andWhere('s.dateTimeStart >= :start_date')
-//                    ->setParameter('start_date', $format_start_date);
-//            }
-//
-//            //filtre pour la recherche par date de fin
-//            if(!empty($data['end_date']) && empty($data['start_date'])){
-//                $format_end_date = date_format($data['end_date'], 'Y-m-d H:i:s');
-//                $query->andWhere('s.dateTimeStart <= :end_date')
-//                    ->setParameter('end_date', $format_end_date);
-//            }
-//
-//            //filtre pour la recherche entre 2 dates
-//            if(!empty($data['start_date']) && !empty($data['end_date'])){
-//                $format_start_date = date_format($data['start_date'], 'Y-m-d H:i:s');
-//                $format_end_date = date_format($data['end_date'], 'Y-m-d H:i:s');
-//                $query->andWhere('s.dateTimeStart BETWEEN :start_date AND :end_date')
-//                    ->setParameter('start_date', $format_start_date)
-//                    ->setParameter('end_date', $format_end_date);
-//            }
-//
-//            //filtre pour savoir si on est organisateur
-//            if(!empty($data['organisateur']) ){
-//                $query->andWhere('s.organisateur = :organisateur')
-//                    ->setParameter('organisateur', $userID);
-//            }
-//
-//            //filtre pour savoir les sorties ou on est inscrit
-//            if(!empty($data['inscrit']) && empty($data['non_inscrit'])){
-//                $query->andWhere('p.id IN (:inscrit)')
-//                    ->setParameter('inscrit', $userID);
-//            }
-//
-//            //filtre pour savoir les sorties ou on ne l'est pas inscrit
-//            if(!empty($data['non_inscrit']) && empty($data['inscrit'])){
-//                $query->andWhere('p.id NOT IN (:non_inscrit)')
-//                    ->setParameter('non_inscrit', $userID);
-//            }
-//
-//            //filtre pour savoir si la sortie est passée
-//            if(!empty($data['state']) ){
-//                $query->andWhere('s.etat = :state')
-//                    ->setParameter('state', $data['Activité passée']);
-//            }
+            //filtre pour la recherche par nom
+            if(!empty($data['search'])){
+                $query->andWhere('s.name LIKE :search')
+                    ->setParameter('search', '%'.$data['search'].'%');
+            }
+
+            //filtre pour la recherche par date de début
+            if(!empty($data['start_date']) && empty($data['end_date'])){
+                $format_start_date = date_format($data['start_date'], 'Y-m-d H:i:s');
+                $query->andWhere('s.dateTimeStart >= :start_date')
+                    ->setParameter('start_date', $format_start_date);
+            }
+
+            //filtre pour la recherche par date de fin
+            if(!empty($data['end_date']) && empty($data['start_date'])){
+                $format_end_date = date_format($data['end_date'], 'Y-m-d H:i:s');
+                $query->andWhere('s.dateTimeStart <= :end_date')
+                    ->setParameter('end_date', $format_end_date);
+            }
+
+            //filtre pour la recherche entre 2 dates
+            if(!empty($data['start_date']) && !empty($data['end_date'])){
+                $format_start_date = date_format($data['start_date'], 'Y-m-d H:i:s');
+                $format_end_date = date_format($data['end_date'], 'Y-m-d H:i:s');
+                $query->andWhere('s.dateTimeStart BETWEEN :start_date AND :end_date')
+                    ->setParameter('start_date', $format_start_date)
+                    ->setParameter('end_date', $format_end_date);
+            }
+
+            //filtre pour savoir si on est organisateur
+            if(!empty($data['organisateur']) ){
+                $query->andWhere('s.organisateur = :organisateur')
+                    ->setParameter('organisateur', $userID);
+            }
+
+            //filtre pour savoir les sorties ou on est inscrit
+            if(!empty($data['inscrit']) && empty($data['non_inscrit'])){
+                $query->andWhere('p.id IN (:inscrit)')
+                    ->setParameter('inscrit', $userID);
+            }
+
+            //filtre pour savoir les sorties ou on ne l'est pas inscrit
+            if(!empty($data['non_inscrit']) && empty($data['inscrit'])){
+                $query->andWhere('p.id NOT IN (:non_inscrit)')
+                    ->setParameter('non_inscrit', $userID);
+            }
+
+            //filtre pour savoir si la sortie est passée
+            if(!empty($data['state']) ){
+                $query->andWhere("s.etat = 'Passée'");
+
+            };
+            $query->andWhere("e.name != 'Archivée'")
+//                ->andWhere("s.s.participants ")
+                ->orderBy('s.dateTimeStart', 'DESC');
+
 
             //retourner le résultat
             return $query->getQuery()->getResult();
