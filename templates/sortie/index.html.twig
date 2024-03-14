@@ -41,8 +41,8 @@
         {%  for sortie in sorties %}
             <tr>
                 <th scope="row">{{ sortie.name }}</th>
-                <td>{{ sortie.dateTimeStart|date('d/m/y H:i') }}</td>
-                <td>{{ sortie.dateInscriptionLimit|date('d/m/y H:i') }}</td>
+                <td>{{ sortie.dateTimeStart|date('d/m/Y H:i') }}</td>
+                <td>{{ sortie.dateInscriptionLimit|date('d/m/Y H:i') }}</td>
                 <td>{{ sortie.participants|length }}/{{ sortie.maxInscriptionNb }}</td>
                 <td>{{ sortie.etat.name |default('pas d\'etat') }}</td>
                 <td>
@@ -50,16 +50,16 @@
                         X
                     {% endif %}
                 </td>
-                <td><a href="{{ url('profile_users', {'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.username }}</a></td>
+                <td><a href="{{ url('profile_users', {'id': sortie.organisateur.id}) }}"  class="btn btn-primary">{{ sortie.organisateur.username }}</a></td>
                 <td>
-                    <a href="{{ url('home_detail', {'id': sortie.id}) }}">Afficher</a>
+                    <a href="{{ url('home_detail', {'id': sortie.id}) }}" class="btn btn-primary">Afficher</a>
                     {% if app.user.id == sortie.organisateur.id %}
-                    <a href="{{ path('home_delete', {'id': sortie.id}) }}">Annuler</a>
+                    <a href="{{ path('home_delete', {'id': sortie.id}) }}" class="btn btn-danger">Annuler</a>
                     {% endif %}
                     {% if app.user not in sortie.participants %}
                         <a href="{{ url('home_register',{'id':sortie.id}) }}" class="btn btn-primary"> s'inscrire</a>
                     {% else %}
-                          <a href="{{ url('home_unsub',{'id':sortie.id} ) }}" class="btn btn-primary">se désinscrire</a>
+                          <a href="{{ url('home_unsub',{'id':sortie.id} ) }}" class="btn btn-danger">se désinscrire</a>
                     {% endif %}
                 </td>
             </tr>

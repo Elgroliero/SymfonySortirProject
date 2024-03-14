@@ -24,9 +24,10 @@ class SortieRepository extends ServiceEntityRepository
     }
 
     public function subscribe(Sortie $entity,EntityManagerInterface $entityManager, Participant $participant): bool{
-        if(!($entity->getParticipants()->count()<$entity->getMaxInscriptionNb())){
+        if(!($entity->getParticipants()->count()<$entity->getMaxInscriptionNb())|| $entity->getDateInscriptionLimit()<new \DateTime('now')){
             return false;
         }
+
         $entity->addParticipant($participant);
        $entityManager->persist($entity);
        $entityManager->flush();
@@ -34,15 +35,19 @@ class SortieRepository extends ServiceEntityRepository
     }
 
     public function unSubscribe(Sortie $entity,EntityManagerInterface $entityManager, Participant $participant): bool{
-       if(!(array_search($participant, $entity->getParticipants()->toArray()))){
-           return false;
-       }
+        if(!(array_search($participant, $entity->getParticipants()->toArray()))||$entity->getDateTimeStart()<new \DateTime('now')){
+            return false;
+        }
        $entity->removeParticipant($participant);
        $entityManager->persist($entity);
        $entityManager->flush();
        return true;
     }
 
+    public function updateSortieState(Sortie $entity): bool{
+
+        return true;
+    }
 
     //    /**
     //     * @return Sortie[] Returns an array of Sortie objects
