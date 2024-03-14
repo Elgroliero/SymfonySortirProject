@@ -10,13 +10,13 @@
 
         <form method="post">
             {{ form_start(registrationForm) }}
-            {{ form_row(registrationForm.firstname) }}
-            {{ form_row(registrationForm.lastname) }}
-            {{ form_row(registrationForm.username) }}
-            {{ form_row(registrationForm.email) }}
-            {{ form_row(registrationForm.plainPassword) }}
-            {{ form_row(registrationForm.phoneNumber) }}
-            {{ form_row(registrationForm.site) }}
+            {{ form_row(registrationForm.firstname, { 'attr': { 'value': 'Toto' } }) }}
+            {{ form_row(registrationForm.lastname, { 'attr': { 'value': 'Zobi' } }) }}
+            {{ form_row(registrationForm.username, { 'attr': { 'value': 'totozobi' } }) }}
+            {{ form_row(registrationForm.email, { 'attr': { 'value': 'toto@sortir.com' } }) }}
+            {{ form_row(registrationForm.plainPassword, { 'attr': { 'value': 'totozobi' } }) }}
+            {{ form_row(registrationForm.phoneNumber, { 'attr': { 'value': '0606060606' } }) }}
+            {{ form_row(registrationForm.site, { 'attr': { 'value': 'site' } }) }}
             {# TODO: Ajouter la photo de profil plus tard #}
 
             {{ form_end(registrationForm) }}
