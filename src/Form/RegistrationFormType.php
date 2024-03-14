@@ -56,6 +56,7 @@ class RegistrationFormType extends AbstractType
                     'label' => 'Confirmation du mot de passe',
                 ],
                 'invalid_message' => 'Les mots de passe ne sont pas identiques',
+
             ])
             ->add('phoneNumber', TextType::class, [
                 'label' => 'Téléphone',
