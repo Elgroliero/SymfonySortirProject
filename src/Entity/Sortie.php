@@ -41,7 +41,7 @@ class Sortie
     private ?Lieu $lieu = null;
 
     #[ORM\ManyToOne(inversedBy: 'sorties')]
-    private ?Site $siteOrga = null;
+    private ?Site $site = null;
 
     #[ORM\ManyToMany(targetEntity: Participant::class, mappedBy: 'sortiesInscri')]
     private Collection $participants;
@@ -158,14 +158,14 @@ class Sortie
         return $this;
     }
 
-    public function getSiteOrga(): ?Site
+    public function getSite(): ?Site
     {
-        return $this->siteOrga;
+        return $this->site;
     }
 
-    public function setSiteOrga(?Site $siteOrga): static
+    public function setSite(?Site $site): static
     {
-        $this->siteOrga = $siteOrga;
+        $this->site = $site;
 
         return $this;
     }

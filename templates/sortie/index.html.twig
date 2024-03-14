@@ -3,27 +3,24 @@
 
 {% block body %}
     <h1 class="justify-content-center">Accueil</h1>
-    <form action="{{ path('home_home') }}" method="post">
-        <div class="form-group">
-            <label for="filtre-site">Site de rattachement</label>
-            <select class="form-control" id="filtre-site" name="filtre-site">
-                {% for site in sites %}
-                    <option value="{{ site.id }}">{{ site.name }}</option>
-                {% endfor %}
-            </select>
+    <div class="d-flex justify-content-center">
+        {{ form_start(formFilter) }}
+        <div>
+            {{ form_row(formFilter.site) }}
+            {#  {{ form_row(formFilter.search) }}
+            {{ form_row(formFilter.start_date) }}
+            {{ form_row(formFilter.end_date) }}
+
+            {{ form_row(formFilter.organisateur) }}
+            {{ form_row(formFilter.inscrit) }}
+            {{ form_row(formFilter.non_inscrit) }}
+            {{ form_row(formFilter.etat) }}#}
         </div>
-        <div class="form-group">
-            <label for="filtre-nom">Le nom de la sortie contient :</label>
-            <input name="filtre-nom" id="filtre-nom" type="search">
+        <div>
+            {{ form_row(formFilter.rechercher) }}
         </div>
-        <div class="form-group">
-            <label for="filtre-date">Entre :</label>
-            <input name="filtre-date" id="filtre-date" type="date">
-            <label for="filtre-date2">et :</label>
-            <input name="filtre-date2" id="filtre-date2" type="date">
-        </div>
-        <button type="submit" class="btn btn-primary" name="filtre">Rechercher</button>
-    </form>
+        {{ form_end(formFilter) }}
+    </div>
     <table class="table">
         <thead>
         <tr>

@@ -6,6 +6,7 @@ use App\Entity\Lieu;
 use App\Entity\Participant;
 use App\Entity\Site;
 use App\Entity\Sortie;
+use App\Form\SortieFiltreType;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;
 use App\Repository\SiteRepository;
@@ -25,44 +26,30 @@ class SortieController extends AbstractController
 
 //    public function listSorties(EntityManagerInterface $entityManager, Request $request): Response
     #[Route(path: '', name: '_home')]
-    public function listSorties(EntityManagerInterface $entityManager, SiteRepository $site, Request $request): Response
+    public function listSorties(EntityManagerInterface $entityManager, SortieRepository $sortieRepo, Request $request): Response
     {
 
        // $total = $entityManager->getRepository(Sortie::class)->count(['etat' => 'ouvert'])
+        $sorties = $entityManager->getRepository(Sortie::class)->findBy(
+            ['etat' => 2]
+        );
 
-        $sites = $site->findAll();
+        $formFilter = $this->createForm(SortieFiltreType::class);
+        $formFilter->handleRequest($request);
+        $userID = $this->getUser()->getId();
+        $dateNow = new \DateTime('now');
 
-        //Validation du formulaire de recherche par site
-        if($_POST) {
-            $site = $request->get('filtre-site');
-            $nom = $request->get('filtre-nom');
-            $date = $request->get('filtre-date');
-            $date2 = $request->get('filtre-date2');
-            $queryBuilder = $entityManager->getRepository(Sortie::class)->createQueryBuilder('s');
-            if($site) {
-                $queryBuilder
-                    ->andWhere('s.siteOrga = :site')
-                    ->setParameter('site', $site);
-            }
-            if($nom) {
-                $queryBuilder
-                    ->andWhere('s.name LIKE :nom')
-                    ->setParameter('nom', '%'.$nom.'%');
-            }
-            if($date && $date2) {
-                $queryBuilder
-                    ->andWhere('s.dateTimeStart BETWEEN :date AND :date2')
-                    ->setParameter('date', $date)
-                    ->setParameter('date2', $date2);
-            }
-            $sorties = $queryBuilder->getQuery()->getResult();
-        } else {
-            $sorties = $entityManager->getRepository(Sortie::class)->findBy(
-                ['etat' => 2]
-            );
+        //Validation du formulaire de recherche
+        if($formFilter->isSubmitted() && $formFilter->isValid()){
+            $data = $formFilter->getData();
+            $sorties = $sortieRepo->findSortiesbyFilter($data, $userID);
         }
 
-        return $this->render('sortie/index.html.twig', compact('sorties', 'sites'));
+        return $this->render('sortie/index.html.twig', [
+            'sorties' => $sorties,
+            'formFilter' => $formFilter->createView(),
+            'dateNow' => $dateNow
+        ]);
 
     }
 

@@ -74,7 +74,7 @@ class SortieType extends AbstractType
                 'required' => false,
                 'row_attr' => ['class' => 'lieu_form']
             ])
-            ->add('siteOrga', EntityType::class, [
+            ->add('site', EntityType::class, [
                 'label'=>'Site organisateur : ',
                 'class' => Site::class,
                 'choice_label' => 'name',

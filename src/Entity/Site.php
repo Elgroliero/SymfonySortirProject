@@ -18,7 +18,7 @@ class Site
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\OneToMany(targetEntity: Sortie::class, mappedBy: 'siteOrga')]
+    #[ORM\OneToMany(targetEntity: Sortie::class, mappedBy: 'site')]
     private Collection $sorties;
 
     #[ORM\OneToMany(targetEntity: Participant::class, mappedBy: 'site')]
@@ -59,7 +59,7 @@ class Site
     {
         if (!$this->sorties->contains($sorty)) {
             $this->sorties->add($sorty);
-            $sorty->setSiteOrga($this);
+            $sorty->setSite($this);
         }
 
         return $this;
@@ -69,8 +69,8 @@ class Site
     {
         if ($this->sorties->removeElement($sorty)) {
             // set the owning side to null (unless already changed)
-            if ($sorty->getSiteOrga() === $this) {
-                $sorty->setSiteOrga(null);
+            if ($sorty->getSite() === $this) {
+                $sorty->setSite(null);
             }
         }
 

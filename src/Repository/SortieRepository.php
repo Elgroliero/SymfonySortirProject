@@ -49,6 +49,78 @@ class SortieRepository extends ServiceEntityRepository
         return true;
     }
 
+    public function findSortiesbyFilter(mixed $data, $userID)
+    {
+        $query = $this->createQueryBuilder('s')
+            ->join('s.site', 'site')
+            ->join('s.etat', 'e')
+            ->join('s.participants', 'p');
+        //TODO: ajouter le filtre sur l'archivage et l'ordre desc
+
+            //filtre pour le site organisateur
+            if(!empty($data['site'])){
+                $query->andWhere('site.id = :site')
+                    ->setParameter('site', $data['site']);
+            }
+
+//            //filtre pour la recherche par nom
+//            if(!empty($data['search'])){
+//                $query->andWhere('s.name LIKE :search')
+//                    ->setParameter('search', '%'.$data['search'].'%');
+//            }
+//
+//            //filtre pour la recherche par date de début
+//            if(!empty($data['start_date']) && empty($data['end_date'])){
+//                $format_start_date = date_format($data['start_date'], 'Y-m-d H:i:s');
+//                $query->andWhere('s.dateTimeStart >= :start_date')
+//                    ->setParameter('start_date', $format_start_date);
+//            }
+//
+//            //filtre pour la recherche par date de fin
+//            if(!empty($data['end_date']) && empty($data['start_date'])){
+//                $format_end_date = date_format($data['end_date'], 'Y-m-d H:i:s');
+//                $query->andWhere('s.dateTimeStart <= :end_date')
+//                    ->setParameter('end_date', $format_end_date);
+//            }
+//
+//            //filtre pour la recherche entre 2 dates
+//            if(!empty($data['start_date']) && !empty($data['end_date'])){
+//                $format_start_date = date_format($data['start_date'], 'Y-m-d H:i:s');
+//                $format_end_date = date_format($data['end_date'], 'Y-m-d H:i:s');
+//                $query->andWhere('s.dateTimeStart BETWEEN :start_date AND :end_date')
+//                    ->setParameter('start_date', $format_start_date)
+//                    ->setParameter('end_date', $format_end_date);
+//            }
+//
+//            //filtre pour savoir si on est organisateur
+//            if(!empty($data['organisateur']) ){
+//                $query->andWhere('s.organisateur = :organisateur')
+//                    ->setParameter('organisateur', $userID);
+//            }
+//
+//            //filtre pour savoir les sorties ou on est inscrit
+//            if(!empty($data['inscrit']) && empty($data['non_inscrit'])){
+//                $query->andWhere('p.id IN (:inscrit)')
+//                    ->setParameter('inscrit', $userID);
+//            }
+//
+//            //filtre pour savoir les sorties ou on ne l'est pas inscrit
+//            if(!empty($data['non_inscrit']) && empty($data['inscrit'])){
+//                $query->andWhere('p.id NOT IN (:non_inscrit)')
+//                    ->setParameter('non_inscrit', $userID);
+//            }
+//
+//            //filtre pour savoir si la sortie est passée
+//            if(!empty($data['state']) ){
+//                $query->andWhere('s.etat = :state')
+//                    ->setParameter('state', $data['Activité passée']);
+//            }
+
+            //retourner le résultat
+            return $query->getQuery()->getResult();
+    }
+
+
     //    /**
     //     * @return Sortie[] Returns an array of Sortie objects
     //     */
