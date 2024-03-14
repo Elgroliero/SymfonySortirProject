@@ -44,7 +44,7 @@
                 <td>{{ sortie.dateTimeStart|date('d/m/y H:i') }}</td>
                 <td>{{ sortie.dateInscriptionLimit|date('d/m/y H:i') }}</td>
                 <td>{{ sortie.participants|length }}/{{ sortie.maxInscriptionNb }}</td>
-                <td>{{ sortie.etat.name }}</td>
+                <td>{{ sortie.etat.name |default('pas d\'etat') }}</td>
                 <td>
                     {% if app.user in sortie.participants %}
                         X
@@ -55,6 +55,11 @@
                     <a href="{{ url('home_detail', {'id': sortie.id}) }}">Afficher</a>
                     {% if app.user.id == sortie.organisateur.id %}
                     <a href="{{ path('home_delete', {'id': sortie.id}) }}">Annuler</a>
+                    {% endif %}
+                    {% if app.user not in sortie.participants %}
+                        <a href="{{ url('home_register',{'id':sortie.id}) }}" class="btn btn-primary"> s'inscrire</a>
+                    {% else %}
+                      {#    <a href="{{ url('home_unRegister',{'id':sortie.id} ) }}" class="btn btn-primary">se désinscrire</a>#}
                     {% endif %}
                 </td>
             </tr>

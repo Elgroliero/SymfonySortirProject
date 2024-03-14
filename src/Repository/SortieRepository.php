@@ -2,8 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\Participant;
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -20,6 +22,17 @@ class SortieRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Sortie::class);
     }
+
+    public function register(Sortie $entity,EntityManagerInterface $entityManager, Participant $participant): bool{
+        if(!$entity->getParticipants()->count()<$entity->getMaxInscriptionNb()){
+            return false;
+        }
+        $entity->addParticipant($participant);
+       $entityManager->persist($entity);
+       $entityManager->flush();
+       return true;
+    }
+
 
     //    /**
     //     * @return Sortie[] Returns an array of Sortie objects

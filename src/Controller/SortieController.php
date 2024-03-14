@@ -9,6 +9,7 @@ use App\Entity\Sortie;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;
 use App\Repository\SiteRepository;
+use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -125,6 +126,16 @@ class SortieController extends AbstractController
         return $this->render('sortie/delete.html.twig',[
            'sortie' => $sortie
         ]);
+    }
+
+    #[Route('/register/{id}', name: '_register', requirements: ['id' => '\d+'])]
+    public function RegisterToSortie(Sortie $sortie, EntityManagerInterface $em,SortieRepository $sortieRepository) : Response{
+        if($sortieRepository->register($sortie,$em,$this->getUser())) {
+            $this->addFlash('success','Inscription reussie');
+        }else{
+            $this->addFlash('danger','Inscription echouée');
+        }
+        return $this->redirectToRoute('home_home');
     }
 
 
