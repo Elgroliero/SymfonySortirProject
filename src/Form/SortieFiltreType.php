@@ -18,15 +18,15 @@ class SortieFiltreType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->setMethod('GET')
-            ->add('site', EntityType::class, [
-                'class' => Site::class,
-                'choice_label' => 'Site',
-                'multiple' => false,
-                'attr' => [
-                    'class' => 'form-control',
-                ],
-                'required' => false
-            ])
+//            ->add('site', EntityType::class, [
+//                'class' => Site::class,
+//                'choice_label' => 'Site',
+//                'multiple' => false,
+//                'attr' => [
+//                    'class' => 'form-control',
+//                ],
+//                'required' => false
+//            ])
             ->add('rechercher', SubmitType::class, [
                 'label' => 'Rechercher',
                 'attr' => [
