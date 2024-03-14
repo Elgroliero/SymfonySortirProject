@@ -25,10 +25,13 @@
            value="{{ csrf_token('authenticate') }}"
     >
 
-    <div class="checkbox mb-3">
-        <label>
-            <input type="checkbox" name="_remember_me"> Se souvenir de moi
-        </label>
+    <div class="form-check form-switch input-group mb-3">
+        <div class="form-check">
+            <label>
+                <input type="checkbox" name="_remember_me" class="form-check-input">
+                Se souvenir de moi
+            </label>
+        </div>
     </div>
 
     <button class="btn btn-lg btn-primary" type="submit">
@@ -37,5 +40,8 @@
     <a class="btn btn-lg btn-secondary" href="{{ path('app_register') }}" >
         Inscription
     </a>
+    <br>
+    <a href="{{ path('app_forgot_password_request') }}">Mot de passe oublié ?</a>
+
 </form>
 {% endblock %}
