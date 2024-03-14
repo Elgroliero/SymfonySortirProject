@@ -59,7 +59,7 @@
                     {% if app.user not in sortie.participants %}
                         <a href="{{ url('home_register',{'id':sortie.id}) }}" class="btn btn-primary"> s'inscrire</a>
                     {% else %}
-                      {#    <a href="{{ url('home_unRegister',{'id':sortie.id} ) }}" class="btn btn-primary">se désinscrire</a>#}
+                          <a href="{{ url('home_unsub',{'id':sortie.id} ) }}" class="btn btn-primary">se désinscrire</a>
                     {% endif %}
                 </td>
             </tr>

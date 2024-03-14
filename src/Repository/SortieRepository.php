@@ -23,11 +23,21 @@ class SortieRepository extends ServiceEntityRepository
         parent::__construct($registry, Sortie::class);
     }
 
-    public function register(Sortie $entity,EntityManagerInterface $entityManager, Participant $participant): bool{
-        if(!$entity->getParticipants()->count()<$entity->getMaxInscriptionNb()){
+    public function subscribe(Sortie $entity,EntityManagerInterface $entityManager, Participant $participant): bool{
+        if(!($entity->getParticipants()->count()<$entity->getMaxInscriptionNb())){
             return false;
         }
         $entity->addParticipant($participant);
+       $entityManager->persist($entity);
+       $entityManager->flush();
+       return true;
+    }
+
+    public function unSubscribe(Sortie $entity,EntityManagerInterface $entityManager, Participant $participant): bool{
+       if(!(array_search($participant, $entity->getParticipants()->toArray()))){
+           return false;
+       }
+       $entity->removeParticipant($participant);
        $entityManager->persist($entity);
        $entityManager->flush();
        return true;

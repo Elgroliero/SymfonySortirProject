@@ -130,13 +130,22 @@ class SortieController extends AbstractController
 
     #[Route('/register/{id}', name: '_register', requirements: ['id' => '\d+'])]
     public function RegisterToSortie(Sortie $sortie, EntityManagerInterface $em,SortieRepository $sortieRepository) : Response{
-        if($sortieRepository->register($sortie,$em,$this->getUser())) {
+        if($sortieRepository->subscribe($sortie,$em,$this->getUser())) {
             $this->addFlash('success','Inscription reussie');
         }else{
             $this->addFlash('danger','Inscription echouée');
         }
         return $this->redirectToRoute('home_home');
     }
+    #[Route('/unsub/{id}', name: '_unsub', requirements: ['id' => '\d+'])]
+    public function unSubscribeFromSortie(Sortie $sortie, EntityManagerInterface $em,SortieRepository $sortieRepository) : Response{
 
+        if($sortieRepository->unSubscribe($sortie,$em,$this->getUser())) {
+            $this->addFlash('success','Inscription annulée');
+        }else{
+            $this->addFlash('danger','Annulation echouée');
+        }
+        return $this->redirectToRoute('home_home');
+    }
 
 }
