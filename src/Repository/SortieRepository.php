@@ -161,9 +161,11 @@ class SortieRepository extends ServiceEntityRepository
                 $query->andWhere("s.etat = 'Passée'");
 
             };
-            $query->andWhere("e.name != 'Archivée'")
-//                ->andWhere("s.s.participants ")
-                ->orderBy('s.dateTimeStart', 'DESC');
+        $query
+
+            ->andWhere("s.etat = 1 and s.organisateur = :id or s.etat between 2 and 6")
+            ->setParameter('id', $userID)
+            ->orderBy('s.dateTimeStart', 'DESC');
 
 
             //retourner le résultat

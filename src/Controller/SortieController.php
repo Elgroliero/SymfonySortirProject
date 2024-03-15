@@ -6,6 +6,8 @@ use App\Entity\Lieu;
 use App\Entity\Participant;
 use App\Entity\Site;
 use App\Entity\Sortie;
+use App\Form\DeleteSortieType;
+use App\Form\LieuType;
 use App\Form\SortieFiltreType;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;
@@ -30,7 +32,6 @@ class SortieController extends AbstractController
     {
 
        // $total = $entityManager->getRepository(Sortie::class)->count(['etat' => 'ouvert'])
-        $sorties = $entityManager->getRepository(Sortie::class)->findByStates($this->getUser());
 
         $formFilter = $this->createForm(SortieFiltreType::class);
         $formFilter->handleRequest($request);
@@ -42,12 +43,12 @@ class SortieController extends AbstractController
             $data = $formFilter->getData();
             $sorties = $sortieRepo->findSortiesbyFilter($data, $userID);
         }else{
-            $sorties = $entityManager->getRepository(Sortie::class)->findByStates($this->getUser());
+           $sorties = $sortieRepo->findSortiesByFilter(null, $userID);
         }
 
         return $this->render('sortie/index.html.twig', [
             'sorties' => $sorties,
-            'formFilter' => $formFilter->createView(),
+            'formFilter' => $formFilter,
             'dateNow' => $dateNow
         ]);
 
@@ -67,50 +68,47 @@ class SortieController extends AbstractController
     #[Route('/create', name: '_create',methods: ['GET','POST'])]
     public function create(EtatRepository $er,EntityManagerInterface $em,Request $request):response{
         $sortie = new Sortie();
+        $lieu = new Lieu();
         $form = $this->createForm(SortieType::class, $sortie);
+        $formLieu =$this->createForm(LieuType::class, $lieu);
         $form->handleRequest($request);
+        $formLieu->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            if(!$form->get('lieu')->getData()) {
-                if(!$form->get('lieu_name')->getData() || !$form->get('lieu_street')->getData() || !$form->get('lieu_lat')->getData() || !$form->get('lieu_long')->getData() || !$form->get('lieu_city')->getData()) {
-                    return $this->render('sortie/create.html.twig',['form' => $form->createView()]);
-                }
-                $lieu = new Lieu();
-                $lieu->setName($form->get('lieu_name')->getData());
-                $lieu->setStreet($form->get('lieu_street')->getData());
-                $lieu->setLatitude($form->get('lieu_lat')->getData());
-                $lieu->setLongitude($form->get('lieu_long')->getData());
-                $lieu->setVille($form->get('lieu_city')->getData());
-                $sortie->setLieu($lieu);
-                $em->persist($lieu);
-
-            }
             $sortie->addParticipant($this->getUser());
             $sortie->setOrganisateur($this->getUser());
-
             $sortie->setEtat($er->findOneBy(['id' => $request->get('etat')]));
-
             $em->persist($sortie);
             $em->flush();
+            $this->addFlash('success','Sortie ajoutée avec succes');
             return $this->redirectToRoute('home_home');
         }
-        return $this->render('sortie/create.html.twig',['form' => $form->createView()]);
+        if($formLieu->isSubmitted() && $formLieu->isValid()){
+            $em->persist($lieu);
+            $em->flush();
+            $this->addFlash('success', 'Lieu ajouté avec succes');
+            return $this->redirectToRoute('home_create');
+        }
+
+        return $this->render('sortie/create.html.twig',['form' => $form,'formLieu' => $formLieu]);
     }
 
     #[Route('/delete/{id}', name: '_delete', requirements: ['id' => '\d+'])]
-    public function deleteSortie(Sortie $sortie, EntityManagerInterface $em,EtatRepository $er) : Response{
+    public function deleteSortie(Sortie $sortie, EntityManagerInterface $em,EtatRepository $er,Request $request) : Response{
 
-        if ($_POST) {
+        $form = $this->createForm(DeleteSortieType::class,$sortie);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
 
             if ($sortie->getOrganisateur() != $this->getUser()) {
                 throw $this->createNotFoundException('Vous n\'avez pas le droit de supprimer cette sortie');
             }
             $sortie->setEtat($er->findOneBy(['id' => 6]));
-            $sortie->setMotif($_POST['motif']);
             $em->persist($sortie);
             $em->flush();
             return $this->redirectToRoute('home_home');
         }
         return $this->render('sortie/delete.html.twig',[
+            'form' => $form,
            'sortie' => $sortie
         ]);
     }
@@ -141,7 +139,7 @@ class SortieController extends AbstractController
     $form->handleRequest($request);
 
         return $this->render('sortie/update.html.twig',[
-            'form' => $form->createView(),
+            'form' => $form,
             'sortie' => $sortie
         ]);
     }

@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SortieRepository::class)]
 class Sortie
@@ -29,6 +30,7 @@ class Sortie
     private ?\DateTimeInterface $dateInscriptionLimit = null;
 
     #[ORM\Column]
+    #[Assert\Positive(message: 'La valeur doit être positive')]
     private ?int $maxInscriptionNb = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]

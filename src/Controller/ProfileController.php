@@ -52,7 +52,7 @@ class ProfileController extends AbstractController
 
         return $this->render('profile/edit-profile.html.twig', [
             'participant' => $participant,
-            'profile_form' => $form->createView()
+            'profile_form' => $form
         ]);
     }
 

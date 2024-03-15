@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block body %}
     {% form_theme form 'bootstrap_5_layout.html.twig' %}
+    {% form_theme formLieu 'bootstrap_5_layout.html.twig' %}
     {{form_start(form) }}
         {{ form_row(form.name) }}
         {{ form_row(form.dateTimeStart) }}
@@ -10,30 +11,38 @@
         {{ form_row(form.description) }}
         {{ form_row(form.site) }}
         {{ form_row(form.lieu) }}
-    <div class="btn-primary btn" id="formlieubtn" onclick="function LieuForm() {
-        if(document.querySelector('#formlieubtn').innerHTML === 'Créer un lieu'){
-        document.querySelectorAll('.lieu_form').forEach(el => {
-        el.style.display = 'block';
-    });
-        document.querySelector('.lieu').style.display = 'none';
-        document.querySelector('#sortie_lieu').setAttribute('disabled',true)
-        document.querySelector('#formlieubtn').innerHTML='Choisir un lieu existant'
-    }else{
-        document.querySelectorAll('.lieu_form').forEach(el => {
-        el.style.display = 'none';
-    });
-        document.querySelector('.lieu').style.display = 'block';
-        document.querySelector('#sortie_lieu').removeAttribute('disabled');
-        document.querySelector('#formlieubtn').innerHTML='Créer un lieu'
-    }
-    }
-    LieuForm()">Créer un lieu</div>
-        {{ form_row(form.lieu_name) }}
-        {{ form_row(form.lieu_street) }}
-        {{ form_row(form.lieu_long) }}
-        {{ form_row(form.lieu_lat) }}
-        {{ form_row(form.lieu_city) }}
-    <button type="submit" formaction="{{ url('home_create',{'etat' : 1}) }}">Creer</button>
-    <button type="submit" formaction="{{ url('home_create',{'etat' : 2}) }}">Publier</button>
+    <button type="submit" class="btn btn-primary" formaction="{{ url('home_create',{'etat' : 1}) }}">Creer</button>
+    <button type="submit" class="btn btn-primary" formaction="{{ url('home_create',{'etat' : 2}) }}">Publier</button>
     {{ form_end(form) }}
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Créer un lieu
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Créer un nouveau lieu</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {{ form_start(formLieu) }}
+                        {{ form_row(formLieu.name) }}
+                    {{ form_row(formLieu.street) }}
+                    {{ form_row(formLieu.ville) }}
+                    {{ form_row(formLieu.longitude) }}
+                    {{ form_row(formLieu.latitude) }}
+
+                </div>
+                <div class="modal-footer">
+                    {{ form_row(formLieu.submit) }}
+                    <button type="reset" class="btn btn-primary">Annuler</button>
+                    {{ form_end(formLieu) }}
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

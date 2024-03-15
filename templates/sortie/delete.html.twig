@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <form action="{{ url('home_delete',{'id':sortie.id}) }}" method="post">
+
+    {% form_theme form 'bootstrap_5_layout.html.twig' %}
         <p>{{ sortie.name }}</p>
         <p>{{ sortie.description }}</p>
         <p>{{ sortie.lieu.street }} {{ sortie.lieu.ville.name }} {{ sortie.lieu.ville.postalCode }}</p>
-        <textarea name="motif" id="motif"></textarea>
-        <button type="submit">Annuler la sortie</button>
-    </form>
+        {{ form(form) }}
+
 {% endblock %}
 
