@@ -1,4 +1,4 @@
-?php
+<?php
 
 declare(strict_types=1);
 
@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20240315110435 extends AbstractMigration
+final class Version20240315145829 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,16 +20,12 @@ final class Version20240315110435 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('DROP INDEX UNIQ_IDENTIFIER_USERNAME ON participant');
         $this->addSql('ALTER TABLE participant ADD image VARCHAR(255) DEFAULT NULL');
-        $this->addSql('ALTER TABLE participant RENAME INDEX uniq_identifier_email TO UNIQ_D79F6B11E7927C74');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE participant DROP image');
-        $this->addSql('CREATE UNIQUE INDEX UNIQ_IDENTIFIER_USERNAME ON participant (username)');
-        $this->addSql('ALTER TABLE participant RENAME INDEX uniq_d79f6b11e7927c74 TO UNIQ_IDENTIFIER_EMAIL');
     }
 }

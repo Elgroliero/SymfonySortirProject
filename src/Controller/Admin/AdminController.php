@@ -3,12 +3,20 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Participant;
+use App\Entity\Site;
+use App\Entity\Sortie;
+use App\Entity\Ville;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+
 
 class AdminController extends AbstractDashboardController
 {
@@ -44,6 +52,18 @@ class AdminController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-dashboard');
-        yield MenuItem::linkToCrud('Participants', 'fa fa-question-circle', Participant::class);
+        yield MenuItem::linkToCrud('Participants', 'fas fa-users', Participant::class);
+        yield MenuItem::linkToCrud('Sorties', 'fas fa-folder', Sortie::class);
+        yield MenuItem::linkToCrud('Sites', 'fas fa-folder', Site::class);
+        yield MenuItem::linkToCrud('Villes', 'fas fa-folder', Ville::class);
+
+        yield MenuItem::linkToRoute('Accueil', 'fa fa-home', 'home_home');
+
+    }
+
+    public function configureActions(): Actions
+    {
+        return parent::configureActions()
+            ->add(Crud::PAGE_INDEX, Action::DETAIL);
     }
 }
