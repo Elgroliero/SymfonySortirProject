@@ -101,7 +101,6 @@ class SortieRepository extends ServiceEntityRepository
             ->join('s.site', 'site')
             ->join('s.etat', 'e')
             ->join('s.participants', 'p');
-        //TODO: ajouter le filtre sur l'archivage et l'ordre desc
 
             //filtre pour le site organisateur
             if(!empty($data['site'])){

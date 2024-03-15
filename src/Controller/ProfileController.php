@@ -7,11 +7,13 @@ use App\Form\EditProfileType;
 use App\Repository\ParticipantRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[IsGranted('ROLE_USER')] // Permet de dire que l'utilisateur doit être connecté
 #[Route('/', name: 'profile')]
@@ -19,7 +21,7 @@ class ProfileController extends AbstractController
 {
 
     #[Route('profile', name: '_user')]
-    public function profile(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    public function profile(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
 
         $participant = $this->getUser();
@@ -30,7 +32,24 @@ class ProfileController extends AbstractController
         //Si le formulaire est soumis et validé, on enregistre les modifications
         if($form->isSubmitted() && $form->isValid()) {
 
-            //TODO:faire le if de validation et d'enregistrement de la photo de profil
+            //validation de la photo de profil
+            if($form->get('picture_file')->getData() instanceof UploadedFile) {
+                $pictureFile = $form->get('picture_file')->getData();
+                $fileName = $slugger->slug($participant->getUsername()) . ' - ' . uniqid() . ' . ' . $pictureFile->guessExtension();
+                $pictureFile->move(
+                    $this->getParameter('picture_dir'),
+                    $fileName
+                );
+
+                if (!empty($participant->getPicture())) {
+                    $picturePath = $this->getParameter('picture_dir') . '/' . $participant->getPicture();
+                    if(file_exists($picturePath)) {
+                        unlink($picturePath);
+                    }
+                }
+
+                $participant->setPicture($fileName);
+            }
 
             // Cryptage du mot de passe ou nouveau mot de passe
             $participant->setPassword(
@@ -46,7 +65,6 @@ class ProfileController extends AbstractController
 
             // Message flash de succes
             $this->addFlash('success', 'Votre profil a bien été mis à jour');
-            //TODO: Redirection vers la page d'accueil
             return $this->redirectToRoute('home_home');
         }
 

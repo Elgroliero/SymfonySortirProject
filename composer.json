@@ -45,8 +45,10 @@
         "symfony/web-link": "6.4.*",
         "symfony/yaml": "6.4.*",
         "symfonycasts/reset-password-bundle": "^1.21",
+        "twbs/bootstrap": "5.0.2",
         "twig/extra-bundle": "^2.12|^3.0",
-        "twig/twig": "^2.12|^3.0"
+        "twig/twig": "^2.12|^3.0",
+        "vich/uploader-bundle": "^2.3"
     },
     "config": {
         "allow-plugins": {

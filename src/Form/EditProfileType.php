@@ -8,6 +8,7 @@ use App\Entity\Site;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\ResetType;
@@ -17,6 +18,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Vich\UploaderBundle\Form\Type\VichFileType;
 
 class EditProfileType extends AbstractType
 {
@@ -25,15 +27,6 @@ class EditProfileType extends AbstractType
         $builder
             ->add('firstname', TextType::class, [
                 'label' => 'Prénom',
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Veuillez entrer un prénom',
-                    ]),
-                    new Length([
-                        'min' => 3,
-                        'minMessage' => 'Le prénom doit contenir au moins {{ limit }} caractères',
-                    ])
-                ],
             ])
             ->add('lastname', TextType::class, [
                 'label' => 'Nom',
@@ -43,7 +36,6 @@ class EditProfileType extends AbstractType
             ])
             ->add('email', EmailType::class, [
                 'label' => 'Email',
-                //TODO: ajouter contrainte validation mail et entités
             ])
             ->add('phoneNumber', TextType::class, [
                 'label' => 'Téléphone',
@@ -76,13 +68,17 @@ class EditProfileType extends AbstractType
                 ],
                 'invalid_message' => 'Les mots de passe ne sont pas identiques',
             ])
+            ->add('picture_file', FileType::class, [
+                'label' => 'Ma photo',
+                'mapped' => false,
+                'required' => false,
+            ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Enregistrer',
             ])
             ->add('reset', ResetType::class, [
                 'label' => 'Annuler',
             ]);
-            //TODO: Ajouter la photo de profil ensuite (donc un fileType)
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -26,12 +26,7 @@ class SortieFiltreType extends AbstractType
                 'placeholder' => ' --Choisir un site-- ',
                 'required' => false,
             ])
-            ->add('rechercher', SubmitType::class, [
-                'label' => 'Rechercher',
-                'attr' => [
-                    'class' => 'btn btn-primary'
-                ]
-            ])
+
 
             ->add('search', TextType::class, [
                 'label' => 'Le nom de la sortie contient',
@@ -83,7 +78,13 @@ class SortieFiltreType extends AbstractType
                 'attr' => [
                     'class' => 'form-check-input'
                 ]
-            ]);
+            ])
+        ->add('rechercher', SubmitType::class, [
+        'label' => 'Rechercher',
+        'attr' => [
+            'class' => 'btn btn-primary'
+        ]
+    ]);
 
     }
 

@@ -6,15 +6,17 @@ use App\Entity\Participant;
 use App\Form\RegistrationFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $participant = new Participant();
         $form = $this->createForm(RegistrationFormType::class, $participant);
@@ -24,6 +26,17 @@ class RegistrationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             //TODO:faire le if de validation et d'enregistrement de la photo de profil
+            if($form->get('picture_file')->getData() instanceof UploadedFile) {
+                $pictureFile = $form->get('picture_file')->getData();
+                $fileName = $slugger->slug($participant->getUsername()) . ' - ' . uniqid() . ' . ' . $pictureFile->guessExtension();
+                $pictureFile->move(
+                    $this->getParameter('picture_dir'),
+                    $fileName
+                );
+                $participant->setPicture($fileName);
+            }
+
+
             // encode the plain password
             $participant->setPassword(
                 $userPasswordHasher->hashPassword(
