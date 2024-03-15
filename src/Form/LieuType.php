@@ -34,7 +34,6 @@ class LieuType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Lieu::class,
-            'novalidate' => "novalidate",
         ]);
     }
 }
