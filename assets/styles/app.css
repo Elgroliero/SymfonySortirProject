@@ -47,3 +47,11 @@ body{
     width: 6em;
 }
 
+#demoObject {
+    -webkit-box-shadow: 6px 4px 7px 4px rgba(0,0,0,0.73);
+    box-shadow: 6px 4px 7px 4px rgba(0,0,0,0.73);
+    background: #CAE7FA;
+}
+body#tinymce {
+    background: #FFFFFF
+}

@@ -2,6 +2,7 @@ twig:
     file_name_pattern: '*.twig'
     globals:
         picture_dir: '%picture_dir%'
+        image_dir: '%image_dir%'
 
 when@test:
     twig:

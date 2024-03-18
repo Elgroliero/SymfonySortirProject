@@ -16,10 +16,12 @@ use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[IsGranted('ROLE_USER')] // Seul les utilisateurs authentifiés peuvent accéder à cette page
 #[Route(name:'home')]
@@ -66,7 +68,7 @@ class SortieController extends AbstractController
         ]);
     }
     #[Route('/create', name: '_create',methods: ['GET','POST'])]
-    public function create(EtatRepository $er,EntityManagerInterface $em,Request $request):response{
+    public function create(EtatRepository $er,EntityManagerInterface $em,Request $request, SluggerInterface $slugger):response{
 
         $lieu = new Lieu();
 
@@ -89,6 +91,23 @@ class SortieController extends AbstractController
             $sortie->addParticipant($this->getUser());
             $sortie->setOrganisateur($this->getUser());
             $sortie->setEtat($er->findOneBy(['id' => $request->get('etat')]));
+
+            if ($form->get('picture')->getData() instanceof UploadedFile) {
+                $picture = $form->get('picture')->getData();
+                $fileName = $slugger->slug($sortie->getName()) . ' - ' . uniqid() . ' . ' . $picture->guessExtension();
+                $picture->move(
+                    $this->getParameter('image_dir'),
+                    $fileName
+                );
+                if (!empty($sortie->getPicture())) {
+                    $picturePath = $this->getParameter('image_dir') . '/' . $sortie->getPicture();
+                    if (file_exists($picturePath)) {
+                        unlink($picturePath);
+                    }
+                }
+                $sortie->setPicture($fileName);
+            }
+
             $em->persist($sortie);
             $em->flush();
             $this->addFlash('success','Sortie ajoutée avec succes');

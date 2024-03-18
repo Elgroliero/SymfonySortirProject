@@ -54,6 +54,9 @@ class Sortie
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $motif = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $picture = null;
+
     public function __construct()
     {
         $this->participants = new ArrayCollection();
@@ -219,6 +222,18 @@ class Sortie
     public function setMotif(?string $motif): static
     {
         $this->motif = $motif;
+
+        return $this;
+    }
+
+    public function getPicture(): ?string
+    {
+        return $this->picture;
+    }
+
+    public function setPicture(?string $picture): static
+    {
+        $this->picture = $picture;
 
         return $this;
     }

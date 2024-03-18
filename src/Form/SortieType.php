@@ -8,12 +8,14 @@ use App\Entity\Sortie;
 use App\Entity\Ville;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\File;
 
 class SortieType extends AbstractType
 {
@@ -73,6 +75,23 @@ class SortieType extends AbstractType
                 'class' => Site::class,
                 'choice_label' => 'name',
                 'placeholder' => ' --Choisir un site-- ',
+            ])
+            ->add('picture', FileType::class, [
+                'label' => 'Illustration de sortie (jpg, jpeg, png)',
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/jpg',
+                            'image/png',
+                        ],
+                        'mimeTypesMessage' => 'Veuillez entrer une image valide',
+                        'maxSizeMessage' => 'La taille de l\'image ne doit pas depasser {{ limit }}',
+                    ])
+                ]
             ])
         ;
     }
