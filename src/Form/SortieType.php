@@ -12,6 +12,8 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class SortieType extends AbstractType
 {
@@ -24,11 +26,35 @@ class SortieType extends AbstractType
             ->add('dateTimeStart', null, [
                 'label' => 'Date de début de l\'évenemeent :',
                 'widget' => 'single_text',
+                'constraints'=>[
+                    new Assert\Callback(function ($object, ExecutionContextInterface $context) {
+                        $now = new \DateTime('now');
+                        if($object < $now->modify('+1 hour')){
+                            $context
+                                ->buildViolation('Startactiv must be after now')
+                                ->addViolation();
+                        }
+                    })
+                ]
             ])
             ->add('duration')
             ->add('dateInscriptionLimit', null, [
                 'label' => 'Date limite d\'inscription : ',
                 'widget' => 'single_text',
+                'constraints' => [
+                    new Assert\Callback(function ($object, ExecutionContextInterface $context) {
+                        $start = $context->getRoot()->getData()->getDateTimeStart();
+                        $stop = $object;
+                        if (is_a($start, \DateTime::class) && is_a($stop, \DateTime::class)) {
+
+                            if($stop >= $start){
+                                $context
+                                    ->buildViolation('Stopinsc must be before startactiv')
+                                    ->addViolation();
+                            }
+                        }
+                    }),
+                ],
             ])
             ->add('maxInscriptionNb',IntegerType::class,[
                'label' => "Nombre d'inscrits MAX : "
