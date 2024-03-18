@@ -4,7 +4,9 @@
 
 {% block body %}
     <h2>Mon profil</h2>
-            <form method="post">
+    {% if participant.image is not empty %}
+        <img src="{{ asset(picture_dir ~ '/' ~ participant.image) }}" alt="{{ participant.username }}" width="150px"/>
+    {% endif %}
                 {{ form_start(profile_form) }}
                     {{ form_row(profile_form.username) }}
                     {{ form_label(profile_form.firstname) }}
@@ -15,8 +17,7 @@
                     {{ form_row(profile_form.email) }}
                     {{ form_row(profile_form.plainPassword) }}
                     {{ form_row(profile_form.site) }}
-                    {# TODO: Ajouter la photo de profil plus tard #}
+                    {{ form_row(profile_form.image) }}
                 {{ form_end(profile_form) }}
-            </form>
 
 {% endblock %}

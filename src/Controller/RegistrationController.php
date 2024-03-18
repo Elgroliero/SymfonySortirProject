@@ -24,18 +24,15 @@ class RegistrationController extends AbstractController
 
         //Si le formulaire est soumis et validé, on enregistre les modifications
         if ($form->isSubmitted() && $form->isValid()) {
-
-            //TODO:faire le if de validation et d'enregistrement de la photo de profil
-            if($form->get('picture_file')->getData() instanceof UploadedFile) {
-                $pictureFile = $form->get('picture_file')->getData();
-                $fileName = $slugger->slug($participant->getUsername()) . ' - ' . uniqid() . ' . ' . $pictureFile->guessExtension();
-                $pictureFile->move(
+            if($form->get('image')->getData() instanceof UploadedFile) {
+                $image = $form->get('image')->getData();
+                $fileName = $slugger->slug($participant->getUsername()) . ' - ' . uniqid() . ' . ' . $image->guessExtension();
+                $image->move(
                     $this->getParameter('picture_dir'),
                     $fileName
                 );
-                $participant->setPicture($fileName);
+                $participant->setImage($fileName);
             }
-
 
             // encode the plain password
             $participant->setPassword(

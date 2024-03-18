@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Participant;
-use App\Form\EditProfileType;
+use App\Form\RegistrationFormType;
 use App\Repository\ParticipantRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,29 +26,27 @@ class ProfileController extends AbstractController
 
         $participant = $this->getUser();
         // Formulaire d'édition du profil (récupère l'id avec l'objet participant)
-        $form = $this->createForm(EditProfileType::class, $participant);
+        $form = $this->createForm(RegistrationFormType::class, $participant);
         $form->handleRequest($request);
 
         //Si le formulaire est soumis et validé, on enregistre les modifications
         if($form->isSubmitted() && $form->isValid()) {
 
             //validation de la photo de profil
-            if($form->get('picture_file')->getData() instanceof UploadedFile) {
-                $pictureFile = $form->get('picture_file')->getData();
-                $fileName = $slugger->slug($participant->getUsername()) . ' - ' . uniqid() . ' . ' . $pictureFile->guessExtension();
-                $pictureFile->move(
+            if($form->get('image')->getData() instanceof UploadedFile) {
+                $image = $form->get('image')->getData();
+                $fileName = $slugger->slug($participant->getUsername()) . ' - ' . uniqid() . ' . ' . $image->guessExtension();
+                $image->move(
                     $this->getParameter('picture_dir'),
                     $fileName
                 );
-
-                if (!empty($participant->getPicture())) {
-                    $picturePath = $this->getParameter('picture_dir') . '/' . $participant->getPicture();
+                if (!empty($participant->getImage())) {
+                    $picturePath = $this->getParameter('picture_dir') . '/' . $participant->getImage();
                     if(file_exists($picturePath)) {
                         unlink($picturePath);
                     }
                 }
-
-                $participant->setPicture($fileName);
+                $participant->setImage($fileName);
             }
 
             // Cryptage du mot de passe ou nouveau mot de passe
@@ -70,7 +68,7 @@ class ProfileController extends AbstractController
 
         return $this->render('profile/edit-profile.html.twig', [
             'participant' => $participant,
-            'profile_form' => $form
+            'profile_form' => $form->createView()
         ]);
     }
 

@@ -6,7 +6,6 @@ use App\Entity\Participant;
 use App\Entity\Site;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -15,9 +14,9 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\File;
 
 class RegistrationFormType extends AbstractType
 {
@@ -35,6 +34,9 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('email', EmailType::class, [
                 'label' => 'Email',
+            ])
+            ->add('phoneNumber', TextType::class, [
+                'label' => 'Téléphone',
             ])
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
@@ -59,18 +61,27 @@ class RegistrationFormType extends AbstractType
                 'invalid_message' => 'Les mots de passe ne sont pas identiques',
 
             ])
-            ->add('phoneNumber', TextType::class, [
-                'label' => 'Téléphone',
-            ])
             ->add('site', EntityType::class, [
                 'class' => Site::class,
                 'label' => 'Site de rattachement',
                 'choice_label' => 'name',
             ])
-            ->add('picture_file', FileType::class, [
+            ->add('image', FileType::class, [
                 'label' => 'Photo de profil (jpg, jpeg, png)',
                 'mapped' => false,
                 'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/jpg',
+                            'image/png',
+                        ],
+                        'mimeTypesMessage' => 'Veuillez entrer une image valide',
+                        'maxSizeMessage' => 'La taille de l\'image ne doit pas depasser {{ limit }}',
+                    ])
+                ]
             ])
             ->add('submit', SubmitType::class, );
     }

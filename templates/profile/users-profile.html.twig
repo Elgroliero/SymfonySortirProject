@@ -3,8 +3,10 @@
 {% block body %}
 
     <h2>{{ participant.username }}</h2>
-    {# TODO: Ajouter la photo de profil #}
 
+        {% if participant.image is not empty %}
+            <img src="{{ asset(picture_dir ~ '/' ~ participant.image) }}" alt="{{ participant.username }}" width="150px"/>
+        {% endif %}
         <table class="table">
             <tr>
                 <th scope="row">Prénom : </th>

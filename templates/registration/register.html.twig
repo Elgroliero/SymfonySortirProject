@@ -6,21 +6,15 @@
 
 {% block body %}
     <h1>Inscription</h1>
-
-
-        <form method="post">
             {{ form_start(registrationForm) }}
-            {{ form_row(registrationForm.firstname, { 'attr': { 'value': 'Toto' } }) }}
-            {{ form_row(registrationForm.lastname, { 'attr': { 'value': 'Zobi' } }) }}
-            {{ form_row(registrationForm.username, { 'attr': { 'value': 'totozobi' } }) }}
-            {{ form_row(registrationForm.email, { 'attr': { 'value': 'toto@sortir.com' } }) }}
-            {{ form_row(registrationForm.plainPassword, { 'attr': { 'value': 'totozobi' } }) }}
-            {{ form_row(registrationForm.phoneNumber, { 'attr': { 'value': '0606060606' } }) }}
-            {{ form_row(registrationForm.site, { 'attr': { 'value': 'site' } }) }}
-            {# TODO: Ajouter la photo de profil plus tard #}
-
+                {{ form_row(registrationForm.firstname, { 'attr': { 'value': 'Toto' } }) }}
+                {{ form_row(registrationForm.lastname, { 'attr': { 'value': 'Zobi' } }) }}
+                {{ form_row(registrationForm.username, { 'attr': { 'value': 'totozobi' } }) }}
+                {{ form_row(registrationForm.email, { 'attr': { 'value': 'toto@sortir.com' } }) }}
+                {{ form_row(registrationForm.plainPassword, { 'attr': { 'value': 'totozobi' } }) }}
+                {{ form_row(registrationForm.phoneNumber, { 'attr': { 'value': '0606060606' } }) }}
+                {{ form_row(registrationForm.site, { 'attr': { 'value': 'site' } }) }}
+                {{ form_row(registrationForm.image) }}
             {{ form_end(registrationForm) }}
-
-        </form>
 
 {% endblock %}
