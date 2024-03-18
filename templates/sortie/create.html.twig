@@ -14,11 +14,12 @@
     <button type="submit" class="btn btn-primary" formaction="{{ url('home_create',{'etat' : 1}) }}">Creer</button>
     <button type="submit" class="btn btn-primary" formaction="{{ url('home_create',{'etat' : 2}) }}">Publier</button>
     {{ form_end(form) }}
-
-    <!-- Button trigger modal -->
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
         Créer un lieu
     </button>
+
+
+
 
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -29,18 +30,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    {{ form_start(formLieu) }}
-                        {{ form_row(formLieu.name) }}
-                    {{ form_row(formLieu.street) }}
-                    {{ form_row(formLieu.ville) }}
-                    {{ form_row(formLieu.longitude) }}
-                    {{ form_row(formLieu.latitude) }}
-
-                </div>
-                <div class="modal-footer">
-                    {{ form_row(formLieu.submit) }}
-                    <button type="reset" class="btn btn-primary">Annuler</button>
-                    {{ form_end(formLieu) }}
+                    {{ form(formLieu) }}
                 </div>
             </div>
         </div>

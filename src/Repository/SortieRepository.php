@@ -26,67 +26,76 @@ class SortieRepository extends ServiceEntityRepository
     }
 
     public function subscribe(Sortie $entity,EntityManagerInterface $entityManager, Participant $participant): bool{
-        if(!($entity->getParticipants()->count()<$entity->getMaxInscriptionNb()&& ($entity->getEtat()->getName()==='Ouverte'))){
-            return false;
-        }
+       if($entity->getMaxInscriptionNb() > count($entity->getParticipants()) && $entity->getEtat()->getName()==='Ouverte'){
         $entity->addParticipant($participant);
        $entityManager->persist($entity);
        $entityManager->flush();
        return true;
+       }else{
+           return false;
+       }
     }
 
     public function unSubscribe(Sortie $entity,EntityManagerInterface $entityManager, Participant $participant): bool{
-        if(!($entity->getEtat()->getName()==='Ouverte')){
+        $etat = $entity->getEtat()->getName();
+        if($etat === 'Ouverte'|| $etat === 'Clôturée'){
+            $entity->removeParticipant($participant);
+            $entityManager->persist($entity);
+            $entityManager->flush();
+            return true;
+        }else{
             return false;
         }
-       $entity->removeParticipant($participant);
-       $entityManager->persist($entity);
-       $entityManager->flush();
-       return true;
     }
 
     public function updateSortieState($tabSortie,EntityManagerInterface $entityManager,EtatRepository $etatRepository): bool
     {
         foreach ($tabSortie as $entity) {
+            $now = new \DateTime('now');
+            $now->modify('+1 hour');
             if ($entity->getEtat()->getName() === 'Ouverte') {
-                if ($entity->getDateInscriptionLimit() < new \DateTime('now')) {
+                if ($entity->getDateInscriptionLimit() < $now) {
                     $entity->setEtat($etatRepository->findOneBy(['name' => 'Clôturée']));
-
                 }
             }
+            $dateFinAc = clone $entity->getDateTimeStart();
+            $dateFinAc->modify('+'.$entity->getDuration().' minutes');
             if ($entity->getEtat()->getName() === 'Clôturée') {
-
-                if ($entity->getDateTimeStart() < new \DateTime('now')){
+                if ($entity->getDateTimeStart()<=$now && $dateFinAc >= $now) {
+                    $entity->setEtat($etatRepository->findOneBy(['name' => 'Activité en cours']));
+                }else if($dateFinAc<=$now){
+                    $entity->setEtat($etatRepository->findOneBy(['name' => 'Passée']));
+                }
+            }
+            if($entity->getEtat()->getName()==='Activité en cours'){
+                if ($dateFinAc<=$now) {
                     $entity->setEtat($etatRepository->findOneBy(['name' => 'Passée']));
                 }
             }
 
-
-            if ($entity->getEtat()->getName() === 'Passée') {
-                $old = new \DateTime('now');
-                if ($entity->getDateTimeStart() < $old->modify('+1 month')) {
+            if ($entity->getEtat()->getName() === 'Passée' || $entity->getEtat()->getName() === 'Annulée') {
+                if ($dateFinAc->modify('+1 month') < $now) {
                     $entity->setEtat($etatRepository->findOneBy(['name' => 'Archivée']));
                 }
             }
-
             $entityManager->persist($entity);
             $entityManager->flush();
         }
         return true;
     }
 
-    public function findByStates(Participant $participant){
-        return $this->createQueryBuilder('s')
-            ->orWhere("s.etat = 2")
-            ->orWhere("s.etat = 3")
-            ->orWhere("s.etat = 4")
-            ->orWhere("s.etat = 5")
-            ->orWhere("s.etat = 6")
-            ->orWhere("s.etat = 1 and s.organisateur = :id")
-            ->setParameter('id', $participant->getId())
-            ->getQuery()
-        ->getResult();
-    }
+//    public function findByStates(Participant $participant){
+//        return $this->createQueryBuilder('s')
+//            ->orWhere("s.etat = 2")
+//            ->orWhere("s.etat = 3")
+//            ->orWhere("s.etat = 4")
+//            ->orWhere("s.etat = 5")
+//            ->orWhere("s.etat = 6")
+//            ->orWhere("s.etat = 1 and s.organisateur = :id")
+//            ->setParameter('id', $participant->getId())
+//            ->getQuery()
+//        ->getResult();
+//    }
 
     public function publish(Sortie $entity,EntityManagerInterface $entityManager): bool{
         $entity->setEtat($entityManager->getRepository(Etat::class)->findOneBy(['name' => 'Ouverte']));
@@ -100,7 +109,7 @@ class SortieRepository extends ServiceEntityRepository
         $query = $this->createQueryBuilder('s')
             ->join('s.site', 'site')
             ->join('s.etat', 'e')
-            ->join('s.participants', 'p');
+            ->leftJoin('s.participants', 'p');
 
             //filtre pour le site organisateur
             if(!empty($data['site'])){
@@ -151,13 +160,14 @@ class SortieRepository extends ServiceEntityRepository
 
             //filtre pour savoir les sorties ou on ne l'est pas inscrit
             if(!empty($data['non_inscrit']) && empty($data['inscrit'])){
-                $query->andWhere('p.id NOT IN (:non_inscrit)')
+                $query->andWhere('p.id NOT IN (:non_inscrit) OR p.id IS NULL')
+
                     ->setParameter('non_inscrit', $userID);
             }
 
             //filtre pour savoir si la sortie est passée
             if(!empty($data['state']) ){
-                $query->andWhere("s.etat = 'Passée'");
+                $query->andWhere("s.etat = 5");
 
             };
         $query

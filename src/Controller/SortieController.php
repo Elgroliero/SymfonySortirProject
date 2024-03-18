@@ -28,7 +28,7 @@ class SortieController extends AbstractController
 
 //    public function listSorties(EntityManagerInterface $entityManager, Request $request): Response
     #[Route(path: '', name: '_home')]
-    public function listSorties(EntityManagerInterface $entityManager, SortieRepository $sortieRepo, Request $request): Response
+    public function listSorties(EtatRepository $etatRepository,EntityManagerInterface $entityManager,SortieRepository $sortieRepository, SortieRepository $sortieRepo, Request $request): Response
     {
 
        // $total = $entityManager->getRepository(Sortie::class)->count(['etat' => 'ouvert'])
@@ -45,7 +45,7 @@ class SortieController extends AbstractController
         }else{
            $sorties = $sortieRepo->findSortiesByFilter(null, $userID);
         }
-
+        $sortieRepository->updateSortieState($sorties,$entityManager,$etatRepository);
         return $this->render('sortie/index.html.twig', [
             'sorties' => $sorties,
             'formFilter' => $formFilter,
@@ -67,12 +67,24 @@ class SortieController extends AbstractController
     }
     #[Route('/create', name: '_create',methods: ['GET','POST'])]
     public function create(EtatRepository $er,EntityManagerInterface $em,Request $request):response{
-        $sortie = new Sortie();
+
         $lieu = new Lieu();
-        $form = $this->createForm(SortieType::class, $sortie);
+
         $formLieu =$this->createForm(LieuType::class, $lieu);
-        $form->handleRequest($request);
         $formLieu->handleRequest($request);
+
+        if($formLieu->isSubmitted() && $formLieu->isValid()){
+            $em->persist($lieu);
+            $em->flush();
+            $this->addFlash('success', 'Lieu ajouté avec succes');
+            return $this->redirectToRoute('home_create');
+        }
+
+        $sortie = new Sortie();
+
+        $form = $this->createForm(SortieType::class, $sortie);
+        $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $sortie->addParticipant($this->getUser());
             $sortie->setOrganisateur($this->getUser());
@@ -82,14 +94,10 @@ class SortieController extends AbstractController
             $this->addFlash('success','Sortie ajoutée avec succes');
             return $this->redirectToRoute('home_home');
         }
-        if($formLieu->isSubmitted() && $formLieu->isValid()){
-            $em->persist($lieu);
-            $em->flush();
-            $this->addFlash('success', 'Lieu ajouté avec succes');
-            return $this->redirectToRoute('home_create');
-        }
 
-        return $this->render('sortie/create.html.twig',['form' => $form,'formLieu' => $formLieu]);
+        return $this->render('sortie/create.html.twig',[
+            'form' => $form,
+            'formLieu' => $formLieu]);
     }
 
     #[Route('/delete/{id}', name: '_delete', requirements: ['id' => '\d+'])]
