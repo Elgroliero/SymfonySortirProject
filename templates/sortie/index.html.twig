@@ -3,24 +3,26 @@
 
 {% block body %}
     <h1 class="justify-content-center">Accueil</h1>
-    <div class="d-flex justify-content-center">
            {{ form_start(formFilter) }}
-        <div>
-            {#  {{ form_row(formFilter.site) }}
+            {{ form_row(formFilter.site) }}
             {{ form_row(formFilter.search) }}
             {{ form_row(formFilter.start_date) }}
             {{ form_row(formFilter.end_date) }}
 
-            {{ form_row(formFilter.organisateur) }}
-            {{ form_row(formFilter.inscrit) }}
-            {{ form_row(formFilter.non_inscrit) }}
-            {{ form_row(formFilter.etat) }}#}
-        </div>
-        <div>
+            {{ form_widget(formFilter.organisateur) }}
+            {{ form_label(formFilter.organisateur) }}
+            <br>
+            {{ form_widget(formFilter.inscrit) }}
+            {{ form_label(formFilter.inscrit) }}
+            <br>
+            {{ form_widget(formFilter.non_inscrit) }}
+            {{ form_label(formFilter.non_inscrit) }}
+            <br>
+            {{ form_widget(formFilter.state) }}
+            {{ form_label(formFilter.state) }}
+
             {{ form_row(formFilter.rechercher) }}
-        </div>
         {{ form_end(formFilter) }}
-    </div>
     <table class="table">
         <thead>
         <tr>
@@ -65,7 +67,9 @@
                 </td>
             </tr>
         {% endfor %}
+
         </tbody>
     </table>
+    <a href="{{ url('home_create') }}" class="btn btn-primary">Créer une sortie</a>
 
 {% endblock %}

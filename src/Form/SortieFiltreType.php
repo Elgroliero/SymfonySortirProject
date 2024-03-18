@@ -20,7 +20,7 @@ class SortieFiltreType extends AbstractType
     {
         $builder->setMethod('GET')
             ->add('site', EntityType::class, [
-                'label'=>'Site : ',
+                'label'=>'Site :',
                 'class' => Site::class,
                 'choice_label' => 'name',
                 'placeholder' => ' --Choisir un site-- ',
@@ -29,7 +29,7 @@ class SortieFiltreType extends AbstractType
 
 
             ->add('search', TextType::class, [
-                'label' => 'Le nom de la sortie contient',
+                'label' => 'Le nom de la sortie contient :',
                 'required' => false,
                 'attr' => [
                     'class' => 'form-control'
