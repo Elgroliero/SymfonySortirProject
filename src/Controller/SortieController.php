@@ -6,10 +6,12 @@ use App\Entity\Lieu;
 use App\Entity\Participant;
 use App\Entity\Site;
 use App\Entity\Sortie;
+use App\Entity\Ville;
 use App\Form\DeleteSortieType;
 use App\Form\LieuType;
 use App\Form\SortieFiltreType;
 use App\Form\SortieType;
+use App\Form\VilleType;
 use App\Repository\EtatRepository;
 use App\Repository\SiteRepository;
 use App\Repository\SortieRepository;
@@ -67,6 +69,7 @@ class SortieController extends AbstractController
             'sortie' => $sortie
         ]);
     }
+
     #[Route('/create', name: '_create',methods: ['GET','POST'])]
     public function create(EtatRepository $er,EntityManagerInterface $em,Request $request, SluggerInterface $slugger):response{
 
@@ -79,6 +82,18 @@ class SortieController extends AbstractController
             $em->persist($lieu);
             $em->flush();
             $this->addFlash('success', 'Lieu ajouté avec succes');
+            return $this->redirectToRoute('home_create');
+        }
+
+        $ville = new Ville();
+
+        $formVille = $this->createForm(VilleType::class, $ville);
+        $formVille->handleRequest($request);
+
+        if($formVille->isSubmitted() && $formVille->isValid()){
+            $em->persist($ville);
+            $em->flush();
+            $this->addFlash('success', 'Ville ajoutée avec succes');
             return $this->redirectToRoute('home_create');
         }
 
@@ -116,7 +131,9 @@ class SortieController extends AbstractController
 
         return $this->render('sortie/create.html.twig',[
             'form' => $form,
-            'formLieu' => $formLieu]);
+            'formLieu' => $formLieu,
+            'formVille' => $formVille
+        ]);
     }
 
     #[Route('/delete/{id}', name: '_delete', requirements: ['id' => '\d+'])]

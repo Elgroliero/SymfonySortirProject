@@ -19,6 +19,12 @@ body{
     width: 70%;
 }
 
+/* If the screen size is 600px wide or less, hide the element */
+@media only screen and (max-width: 500px) {
+    #createPage {
+        display: none;
+    }
+}
 
 
 /**-----------------PAGE CREATION SORTIE-----------------**/

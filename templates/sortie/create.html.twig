@@ -2,6 +2,7 @@
 {% block body %}
     {% form_theme form 'bootstrap_5_layout.html.twig' %}
     {% form_theme formLieu 'bootstrap_5_layout.html.twig' %}
+    {% form_theme formVille 'bootstrap_5_layout.html.twig' %}
     {{form_start(form) }}
         {{ form_row(form.name) }}
         {{ form_row(form.picture) }}
@@ -15,15 +16,18 @@
     <button type="submit" class="btn btn-primary" formaction="{{ url('home_create',{'etat' : 1}) }}">Creer</button>
     <button type="submit" class="btn btn-primary" formaction="{{ url('home_create',{'etat' : 2}) }}">Publier</button>
     {{ form_end(form) }}
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalLieu">
         Créer un lieu
+    </button>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalVille">
+        Créer une ville
     </button>
 
 
 
 
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modalLieu" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -32,6 +36,19 @@
                 </div>
                 <div class="modal-body">
                     {{ form(formLieu) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modalVille" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Ajouter une ville</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {{ form(formVille) }}
                 </div>
             </div>
         </div>
