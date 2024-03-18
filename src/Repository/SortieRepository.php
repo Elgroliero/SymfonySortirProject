@@ -174,7 +174,7 @@ class SortieRepository extends ServiceEntityRepository
 
             ->andWhere("s.etat = 1 and s.organisateur = :id or s.etat between 2 and 6")
             ->setParameter('id', $userID)
-            ->orderBy('s.dateTimeStart', 'DESC');
+            ->orderBy('s.etat', 'ASC');
 
 
             //retourner le résultat

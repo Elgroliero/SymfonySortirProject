@@ -107,13 +107,22 @@ class SortieController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
-            if ($sortie->getOrganisateur() != $this->getUser()) {
-                throw $this->createNotFoundException('Vous n\'avez pas le droit de supprimer cette sortie');
+            if($sortie->getOrganisateur()->getId() == $this->getUser()->getid() || $this->getUser()->getRoles()[0] == 'ROLE_ADMIN') {
+
+
+                if ($sortie->getEtat()->getName() == 'Ouverte' || $sortie->getEtat()->getName() == 'Clôturée') {
+                    $sortie->setEtat($er->findOneBy(['id' => 6]));
+                    $em->persist($sortie);
+                    $em->flush();
+                    $this->addFlash('success', 'Sortie supprimée avec succes');
+                    return $this->redirectToRoute('home_home');
+                } else {
+                    $this->addFlash('danger', 'Impossible de supprimer cette sortie');
+                    return $this->redirectToRoute('home_home');
+                }
+            }else{
+                $this->addFlash('danger', 'Interdix');
             }
-            $sortie->setEtat($er->findOneBy(['id' => 6]));
-            $em->persist($sortie);
-            $em->flush();
-            return $this->redirectToRoute('home_home');
         }
         return $this->render('sortie/delete.html.twig',[
             'form' => $form,
@@ -145,7 +154,6 @@ class SortieController extends AbstractController
     public function updateSortie(Sortie $sortie,Request $request) : Response{
     $form = $this->createForm(SortieType::class, $sortie);
     $form->handleRequest($request);
-
         return $this->render('sortie/update.html.twig',[
             'form' => $form,
             'sortie' => $sortie
@@ -154,8 +162,13 @@ class SortieController extends AbstractController
 
     #[Route('/publish/{id}', name: '_publish', requirements: ['id' => '\d+'])]
     public function publishSortie(Sortie $sortie,EntityManagerInterface $em,SortieRepository $sortieRepository){
-         $sortieRepository->publish($sortie,$em);
-         return $this->redirectToRoute('home_home');
+        if($sortie->getEtat()->getName() === 'Créée') {
+            $sortieRepository->publish($sortie, $em);
+            $this->addFlash('success', 'Sortie publiee avec succes');
+        }else{
+            $this->addFlash('danger', 'Impossible de publier cette sortie');
+        }
+        return $this->redirectToRoute('home_home');
     }
 
 }

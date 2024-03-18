@@ -15,14 +15,14 @@ body{
 .blockBodyContainer form{
     width: 70%;
 }
+.blockBodyContainer table{
+    width: 70%;
+}
 
 
 
 /**-----------------PAGE CREATION SORTIE-----------------**/
-.lieu_form{
-    display: none;
 
-}
 /*
 
 #sortie input{

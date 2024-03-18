@@ -53,16 +53,22 @@
                 <td>
                     <a href="{{ url('home_detail', {'id': sortie.id}) }}" class="btn btn-primary">Afficher</a>
                     {% if app.user.id == sortie.organisateur.id or is_granted('ROLE_ADMIN') %}
-                        {% if sortie.etat.name == 'Ouverte' %}
+                        {% if sortie.etat.name == 'Ouverte' or sortie.etat.name == 'Clôturée' %}
                     <a href="{{ path('home_delete', {'id': sortie.id}) }}" class="btn btn-danger">Annuler</a>
                             {% else %}
+                                {% if  sortie.etat.name == 'Créée' %}
                             <a href="{{ path('home_update', {'id' : sortie.id}) }}" class="btn btn-secondary">Modifier</a>
+                                    {% endif %}
                             {% endif %}
                     {% endif %}
                     {% if app.user not in sortie.participants %}
+                        {% if sortie.etat.name == 'Ouverte' %}
                         <a href="{{ url('home_register',{'id':sortie.id}) }}" class="btn btn-primary"> s'inscrire</a>
+                            {% endif %}
                     {% else %}
+                        {% if sortie.etat.name == 'Ouverte' or sortie.etat.name == 'Clôturée' %}
                           <a href="{{ url('home_unsub',{'id':sortie.id} ) }}" class="btn btn-danger">se désinscrire</a>
+                            {% endif %}
                     {% endif %}
                 </td>
             </tr>
