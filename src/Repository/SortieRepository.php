@@ -7,6 +7,7 @@ use App\Entity\Participant;
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 
@@ -104,8 +105,9 @@ class SortieRepository extends ServiceEntityRepository
         return true;
     }
 
-    public function findSortiesbyFilter(mixed $data, $userID)
+    public function findSortiesbyFilter(mixed $data, $userID,$page)
     {
+        $maxResults=6;
         $query = $this->createQueryBuilder('s')
             ->join('s.site', 'site')
             ->join('s.etat', 'e')
@@ -170,15 +172,14 @@ class SortieRepository extends ServiceEntityRepository
                 $query->andWhere("s.etat = 5");
 
             };
-        $query
-
-            ->andWhere("s.etat = 1 and s.organisateur = :id or s.etat between 2 and 6")
+        $query->andWhere("s.etat = 1 and s.organisateur = :id or s.etat between 2 and 6")
             ->setParameter('id', $userID)
-            ->orderBy('s.etat', 'ASC');
-
-
+            ->orderBy('s.etat', 'ASC')
+            ->setFirstResult($maxResults*($page-1))
+            ->setMaxResults($maxResults);
             //retourner le résultat
-            return $query->getQuery()->getResult();
+
+             return [$query->getQuery()->getResult(),count(new Paginator($query,true))];
     }
 
 

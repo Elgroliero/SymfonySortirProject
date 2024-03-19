@@ -34,26 +34,37 @@ class SortieController extends AbstractController
     #[Route(path: '', name: '_home')]
     public function listSorties(EtatRepository $etatRepository,EntityManagerInterface $entityManager,SortieRepository $sortieRepository, SortieRepository $sortieRepo, Request $request): Response
     {
-
-       // $total = $entityManager->getRepository(Sortie::class)->count(['etat' => 'ouvert'])
-
         $formFilter = $this->createForm(SortieFiltreType::class);
         $formFilter->handleRequest($request);
         $userID = $this->getUser()->getId();
         $dateNow = new \DateTime('now');
-
         //Validation du formulaire de recherche
+        $session = $request->getSession();
+        if($request->query->get('p',1)<0){
+            $page = 1;
+        }else{
+            $page =$request->query->get('p',1);
+        }
         if($formFilter->isSubmitted() && $formFilter->isValid()){
             $data = $formFilter->getData();
-            $sorties = $sortieRepo->findSortiesbyFilter($data, $userID);
+            $sorties = $sortieRepo->findSortiesbyFilter($data, $userID,$page);
+            $session->set('filters' ,$data);
         }else{
-           $sorties = $sortieRepo->findSortiesByFilter(null, $userID);
+            if($session->get('filters')){
+                $data = $session->get('filters');
+                $sorties = $sortieRepo->findSortiesbyFilter($data, $userID,$page);
+            }else{
+                $sorties = $sortieRepo->findSortiesByFilter(null, $userID,$page);
+            }
         }
-        $sortieRepository->updateSortieState($sorties,$entityManager,$etatRepository);
+
+        $sortieRepository->updateSortieState($sorties[0],$entityManager,$etatRepository);
         return $this->render('sortie/index.html.twig', [
-            'sorties' => $sorties,
+            'sorties' => $sorties[0],
             'formFilter' => $formFilter,
-            'dateNow' => $dateNow
+            'dateNow' => $dateNow,
+            'nbPages' => ceil($sorties[1]/6),
+            'page' => $page
         ]);
 
     }
@@ -187,9 +198,15 @@ class SortieController extends AbstractController
     }
 
     #[Route('/update/{id}', name: '_update', requirements: ['id' => '\d+'])]
-    public function updateSortie(Sortie $sortie,Request $request) : Response{
+    public function updateSortie(Sortie $sortie,Request $request,EntityManagerInterface $em,EtatRepository $er) : Response{
     $form = $this->createForm(SortieType::class, $sortie);
     $form->handleRequest($request);
+    if($form->isSubmitted() && $form->isValid()){
+        $em->persist($sortie);
+        $em->flush();
+        $this->addFlash('success','Sortie publiée avec succes');
+        return $this->redirectToRoute('home_update', ['id' => $sortie->getId()]);
+    }
         return $this->render('sortie/update.html.twig',[
             'form' => $form,
             'sortie' => $sortie

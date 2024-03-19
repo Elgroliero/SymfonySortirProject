@@ -26,15 +26,16 @@
 
             {{ form_row(formFilter.rechercher) }}
             {{ form_end(formFilter) }}
+
         </div>
 
         <div class="d-grid" id="shadowBtn">
             <a href="{{ url('home_create') }}" class="btn btn-primary" id="createPage">Créer une sortie</a>
         </div>
 
-        <div class="d-inline-flex d-grid gap-2">
+        <div class="d-inline-flex d-grid gap-2 flex-wrap justify-content-center">
         {%  for sortie in sorties %}
-            <div class="card margin-x" id="fondCard" style="width: 18rem;">
+            <div class="card margin-x" id="fondCard" style="width: 32%">
                 <img src="{{ asset(image_dir ~ '/' ~ sortie.picture) }}" class="card-img-top" alt="{{ sortie.name }}">
                 <div class="card-body">
                     <h5 class="card-title">{{ sortie.name }}</h5>
@@ -70,6 +71,26 @@
                 </div>
             </div>
         {% endfor %}
+
+
+
+            {# PAGINATION #}
         </div>
+        <nav aria-label="...">
+            <ul class=" justify-content-center pagination ahhh">
+                <li class="page-item ">
+                    <a class="page-link{%if page==1 or page is empty%} disabled {% endif%}" href="{{ url('home_home',{'p':page-1}) }}" tabindex="-1">Previous</a>
+                </li>
+                {% for i in 1..nbPages %}
+                    <li class="page-item"><a class="page-link {% if i == page or i==1 and page is empty%} active {% endif%}" href="{{ url('home_home',{'p':i}) }}">{{ i }}</a></li>
+                {% endfor %}
+                <li class="page-item">
+                    <a class="page-link {%if page==nbPages %}disabled {% endif%}" href="{% if page is empty %}{{ url('home_home',{'p':2 })}}{% else %}{{ url('home_home',{'p':page+1}) }}{% endif %}">Next</a>
+                </li>
+            </ul>
+        </nav>
+
+
+        <a href="{{ url('home_create') }}" class="btn btn-primary">Créer une sortie</a>
     </div>
 {% endblock %}
