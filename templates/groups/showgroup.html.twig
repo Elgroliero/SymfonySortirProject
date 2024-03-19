@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>{{ group.nom }}</h1>
+    <table class="table">
+            <tr>
+                <th scope="col">Nom</th>
+                <th scope="col">Prénom</th>
+                <th scope="col">Pseudo</th>
+            </tr>
+        {% for membre in group.participants %}
+            <tr>
+                    <td>{{ membre.lastname|upper }}</td>
+                    <td>{{ membre.firstname }}</td>
+                    <td>{{ membre.username }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <a href="{{ path('group_list') }}" class="btn btn-primary">Retour aux groupes</a>
+{% endblock %}

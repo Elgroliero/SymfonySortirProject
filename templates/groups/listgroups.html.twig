@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <a href="{{ path('group_create') }}" type="button" class="btn btn-primary">Créer un groupe</a>
+    {% for group in groups %}
+            <table class="table">
+                <tr>
+                    <th scope="row">Nom du groupe : </th>
+                    <td>{{ group.nom }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Action :</th>
+                    <td>
+                        <a href="{{ path('group_show', {'id': group.id}) }}" type="button" class="btn btn-primary">Voir</a>
+                        <a href="{{ path('group_edit', {'id': group.id}) }}" type="button" class="btn btn-secondary">Modifier</a>
+                        <a href="{{ path('group_delete', {'id': group.id}) }}" type="button" class="btn btn-danger">Supprimer</a>
+                    </td>
+                </tr>
+            </table>
+    {% endfor %}
+{% endblock %}

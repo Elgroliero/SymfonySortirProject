@@ -1,0 +1,8 @@
+{% extends 'base.html.twig' %}
+
+{%  form_theme formEdit 'bootstrap_5_layout.html.twig' %}
+
+{% block body %}
+        <h1>Modifier un groupe</h1>
+        {{ form(formEdit) }}
+{% endblock %}
