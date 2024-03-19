@@ -1,14 +1,6 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-
-    <div class="card p-3 center" id="fondCard">
-        <h1>Oops !</h1>
-        <p>Erreur 404.</p>
-        <p>Cette page est introuvable.</p>
-        <a href="{{ path('home_home') }}" class="btn btn-primary btn-sm">Retour à l'accueil</a>
-    </div>
-
     {# <div class="card p-3 center" id="fondCard">
         <h1>Erreur {{status_code}} !</h1>
         <p>{{status_text}}</p>
@@ -44,4 +36,12 @@
         <a href="{{ path('home_home') }}" class="btn btn-primary btn-sm">Retour à l'accueil</a>
     </div> #}
 
+
+
+    <div class="card p-3 center" id="fondCard">
+        <h1>Oops !</h1>
+        <p>Erreur 502.</p>
+        <p>Bad gateway, une erreur de serveur est survenue.</p>
+        <a href="{{ path('home_home') }}" class="btn btn-primary btn-sm">Retour à l'accueil</a>
+    </div>
 {% endblock %}

@@ -320,5 +320,5 @@
     },
     "twig/extra-bundle": {
         "version": "v3.8.0"
-    },
+    }
 }

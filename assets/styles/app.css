@@ -53,6 +53,10 @@ body{
     width: 6em;
 }
 
+.card {
+    width: 80%;
+}
+
 #fondCard {
     -webkit-box-shadow: 6px 4px 7px 4px rgba(0,0,0,0.73);
     box-shadow: 6px 4px 7px 4px rgba(0,0,0,0.73);
@@ -65,4 +69,8 @@ body#tinymce {
 #shadowBtn {
     -webkit-box-shadow: 0px 10px 13px -7px #000000, -4px 17px 19px 5px rgba(0,0,0,0);
     box-shadow: 0px 10px 13px -7px #000000, -4px 17px 19px 5px rgba(0,0,0,0);
+}
+
+.center {
+    text-align: center;
 }
