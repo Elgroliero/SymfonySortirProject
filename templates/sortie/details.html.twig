@@ -12,7 +12,7 @@
                 <th scope="row" style="min-width: 200px">Illustration : </th>
                 <td>
                     {% if sortie.picture is not empty %}
-                        <img src="{{ asset(image_dir ~ '/' ~ sortie.picture) }}" alt="{{ sortie.name }}" width="150px"/>
+                        <img src="{{ asset(image_dir ~ '/' ~ sortie.picture) }}" alt="{{ sortie.name|capitalize }}" width="150px"/>
                     {% endif %}
                 </td>
             </tr>

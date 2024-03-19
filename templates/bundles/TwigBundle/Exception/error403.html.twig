@@ -1,10 +1,12 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+
     <div class="card p-3 center" id="fondCard">
         <h1>Oops !</h1>
-        <p>Erreur 502.</p>
-        <p>Bad gateway, une erreur de serveur est survenue.</p>
+        <p>Erreur 403.</p>
+        <p>Cette page vous est interdite. Veuillez contacter l'administrateur pour une demande de changement de rôle.</p>
         <a href="{{ path('home_home') }}" class="btn btn-primary btn-sm">Retour à l'accueil</a>
     </div>
+
 {% endblock %}

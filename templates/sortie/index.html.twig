@@ -8,24 +8,24 @@
     <div class="d-grid gap-3">
         <div class="p-3" id="fondCard">
             {{ form_start(formFilter) }}
-            {{ form_row(formFilter.site) }}
-            {{ form_row(formFilter.search) }}
-            {{ form_row(formFilter.start_date) }}
-            {{ form_row(formFilter.end_date) }}
+                {{ form_row(formFilter.site) }}
+                {{ form_row(formFilter.search) }}
+                {{ form_row(formFilter.start_date) }}
+                {{ form_row(formFilter.end_date) }}
 
-            {{ form_widget(formFilter.organisateur) }}
-            {{ form_label(formFilter.organisateur) }}
-            <br>
-            {{ form_widget(formFilter.inscrit) }}
-            {{ form_label(formFilter.inscrit) }}
-            <br>
-            {{ form_widget(formFilter.non_inscrit) }}
-            {{ form_label(formFilter.non_inscrit) }}
-            <br>
-            {{ form_widget(formFilter.state) }}
-            {{ form_label(formFilter.state) }}
+                {{ form_widget(formFilter.organisateur) }}
+                {{ form_label(formFilter.organisateur) }}
+                <br>
+                {{ form_widget(formFilter.inscrit) }}
+                {{ form_label(formFilter.inscrit) }}
+                <br>
+                {{ form_widget(formFilter.non_inscrit) }}
+                {{ form_label(formFilter.non_inscrit) }}
+                <br>
+                {{ form_widget(formFilter.state) }}
+                {{ form_label(formFilter.state) }}
 
-            {{ form_row(formFilter.rechercher) }}
+                {{ form_row(formFilter.rechercher) }}
             {{ form_end(formFilter) }}
 
         </div>
@@ -39,7 +39,7 @@
             <div class="card margin-x" id="fondCard" style="width: 32%">
                 <img src="{{ asset(image_dir ~ '/' ~ sortie.picture) }}" class="card-img-top" alt="{{ sortie.name }}">
                 <div class="card-body">
-                    <h5 class="card-title">{{ sortie.name }}</h5>
+                    <h5 class="card-title">{{ sortie.name|capitalize }}</h5>
                 </div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">Date de la sortie : {{ sortie.dateTimeStart|date('d/m/Y H:i') }}</li>
