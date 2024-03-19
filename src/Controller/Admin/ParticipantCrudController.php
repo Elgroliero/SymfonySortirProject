@@ -11,9 +11,14 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use Exception;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use App\Repository\ParticipantRepository;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class ParticipantCrudController extends AbstractCrudController
 {
@@ -42,6 +47,7 @@ class ParticipantCrudController extends AbstractCrudController
             BooleanField::new('active', 'Active'),
         ];
     }
+
     public static function getEntityFqcn(): string
     {
         return Participant::class;
@@ -55,6 +61,6 @@ class ParticipantCrudController extends AbstractCrudController
             );
         }
         parent::persistEntity($entityManager, $entityInstance);
-    }
 
+    }
 }
