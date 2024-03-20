@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Ajouter des participants
+{% endblock %}
+
+{% block body %}
+    <main class="d-flex">
+        <div class="container">
+            {% for group, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ group }}" role="alert">{{ message }}</div>
+                {% endfor %}
+            {% endfor %}
+            <h1>Ajouter des participants avec un fichier .csv</h1>
+            <div class="row">
+                <div class="col-md-6">
+                    {{ form_start(form) }}
+                    <div class="mb-3">
+                        {{ form_label(form.csv, 'Ajouter un fichier:', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.csv, {'attr': {'class': 'form-control'}}) }}
+                        {% set errors = form_errors(form.csv) %}
+                        {% if errors %}
+                            <div class="text-danger">
+                                {{ errors|striptags }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(form.site, 'Site:', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.site, {'attr': {'class': 'form-control'}}) }}
+                        {% set errors = form_errors(form.site) %}
+                        {% if errors %}
+                            <div class="text-danger">
+                                {{ errors|striptags }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        {{ form_row(form.submit, {'label': 'Ajouter des participants', 'attr': {'class': 'btn btn-primary'}}) }}
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}
