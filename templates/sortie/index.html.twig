@@ -37,7 +37,9 @@
         <div class="d-inline-flex d-grid gap-2 flex-wrap justify-content-center">
         {%  for sortie in sorties %}
             <div class="card margin-x" id="fondCard" style="width: 32%">
-                <img src="{{ asset(image_dir ~ '/' ~ sortie.picture) }}" class="card-img-top" alt="{{ sortie.name }}">
+                {% if sortie.picture %}
+                    <img src="{{ asset(image_dir ~ '/' ~ sortie.picture) }}" class="card-img-top" alt="{{ sortie.name }}">
+                {% endif %}
                 <div class="card-body">
                     <h5 class="card-title">{{ sortie.name|capitalize }}</h5>
                 </div>
@@ -47,7 +49,7 @@
                     <li class="list-group-item">Places disponibles : {{ sortie.participants|length }}/{{ sortie.maxInscriptionNb }}</li>
                     <li class="list-group-item">État : {{ sortie.etat.name |default('pas d\'etat') }}</li>
                     <li class="list-group-item">Inscrit : {% if app.user in sortie.participants %}X{% endif %}</li>
-                    <li class="list-group-item">Organisateur : {{ sortie.organisateur.username }}</li>
+                    <li class="list-group-item">Organisateur : <a href="{{ url('profile_users', {'id': sortie.organisateur.id}) }}" type="button" class="btn btn-primary btn-sm">{{ sortie.organisateur.username }}</a></li>
                 </ul>
                 <div class="card-body d-grid gap-2 align-items-center">
                     <a href="{{ url('home_detail', {'id': sortie.id}) }}" class="btn btn-primary btn-sm" type="button">Afficher</a>

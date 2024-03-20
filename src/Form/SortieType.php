@@ -23,10 +23,10 @@ class SortieType extends AbstractType
     {
         $builder
             ->add('name',null,[
-                'label' => 'nom de l\'event : '
+                'label' => 'Nom de la sortie'
             ])
             ->add('dateTimeStart', null, [
-                'label' => 'Date de début de l\'évenemeent :',
+                'label' => 'Date et heure de début de la sortie',
                 'widget' => 'single_text',
                 'constraints'=>[
                     new Assert\Callback(function ($object, ExecutionContextInterface $context) {
@@ -39,9 +39,11 @@ class SortieType extends AbstractType
                     })
                 ]
             ])
-            ->add('duration')
+            ->add('duration', IntegerType::class, [
+                'label' => 'Durée (en minutes)',
+            ])
             ->add('dateInscriptionLimit', null, [
-                'label' => 'Date limite d\'inscription : ',
+                'label' => 'Date limite d\'inscription',
                 'widget' => 'single_text',
                 'constraints' => [
                     new Assert\Callback(function ($object, ExecutionContextInterface $context) {
@@ -59,11 +61,11 @@ class SortieType extends AbstractType
                 ],
             ])
             ->add('maxInscriptionNb',IntegerType::class,[
-               'label' => "Nombre d'inscrits MAX : "
+               'label' => "Nombre d'inscrits maximum"
             ])
             ->add('description')
             ->add('lieu', EntityType::class, [
-                'label' => 'Lieu : ',
+                'label' => 'Lieu',
                 'class' => Lieu::class,
                 'choice_label' => 'name',
                 'required' => false,
@@ -71,7 +73,7 @@ class SortieType extends AbstractType
                 'placeholder' => ' --Choisir un lieu-- ',
             ])
             ->add('site', EntityType::class, [
-                'label'=>'Site organisateur : ',
+                'label'=>'Site organisateur',
                 'class' => Site::class,
                 'choice_label' => 'name',
                 'placeholder' => ' --Choisir un site-- ',

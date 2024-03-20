@@ -57,7 +57,6 @@ class SortieController extends AbstractController
                 $sorties = $sortieRepo->findSortiesByFilter(null, $userID,$page);
             }
         }
-
         $sortieRepository->updateSortieState($sorties[0],$entityManager,$etatRepository);
         return $this->render('sortie/index.html.twig', [
             'sorties' => $sorties[0],
@@ -69,7 +68,7 @@ class SortieController extends AbstractController
 
     }
 
-    #[Route('/detail/{id}', name: '_detail', requirements: ['id' => '\d+'])]
+    #[Route('/detail/{id}', name: '_detail', requirements: ['id' => '[0-9]\d*'])]
     public function details(?Sortie $sortie): Response
     {
         if (!$sortie || !$sortie->getDateTimeStart('ouvert')) {
