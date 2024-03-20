@@ -8,7 +8,7 @@
 <h1 class="justify-content-center fw-bold">Bienvenue sur notre site</h1>
     <hr>
     <div class="d-grid gap-3">
-        <div class="p-4" id="fondCard">
+        <div class="p-4 boxShadow m-auto" id="fondCard">
             {{ form_start(formFilter) }}
                 {{ form_row(formFilter.site) }}
                 {{ form_row(formFilter.search) }}
@@ -51,7 +51,7 @@
                     <li class="list-group-item">Places disponibles : {{ sortie.participants|length }}/{{ sortie.maxInscriptionNb }}</li>
                     <li class="list-group-item">État : {{ sortie.etat.name |default('pas d\'etat') }}</li>
                     <li class="list-group-item">Inscrit : {% if app.user in sortie.participants %}X{% endif %}</li>
-                    <li class="list-group-item">Organisateur : <a href="{{ url('profile_users', {'id': sortie.organisateur.id}) }}" type="button" class="btn btn-primary btn-sm">{{ sortie.organisateur.username }}</a></li>
+                    <li class="list-group-item">Organisateur : <a href="{{ url('profile_users', {'id': sortie.organisateur.id}) }}" type="button" class="btn btn-outline btn-sm"> {{ sortie.organisateur.username }}</a></li>
                 </ul>
                 <div class="card-body d-grid gap-2 align-items-center">
                     <a href="{{ url('home_detail', {'id': sortie.id}) }}" class="btn btn-primary btn-sm" type="button">Afficher</a>

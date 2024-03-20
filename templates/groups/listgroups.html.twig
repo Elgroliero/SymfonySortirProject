@@ -1,8 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <a href="{{ path('group_create') }}" type="button" class="btn btn-primary">Créer un groupe</a>
-    {% for group in groups %}
+    <div class="boxShadow">
+        <a href="{{ path('group_create') }}" type="button" class="btn btn-primary">Créer un groupe</a>
+        {% for group in groups %}
             <table class="table">
                 <tr>
                     <th scope="row">Nom du groupe : </th>
@@ -22,5 +23,7 @@
                     </td>
                 </tr>
             </table>
-    {% endfor %}
+        {% endfor %}
+    </div>
+
 {% endblock %}

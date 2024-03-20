@@ -69,11 +69,12 @@
             <span class="mb-3 mb-md-0 text-muted">© {{ "now"|date('Y') }} ENI, Inc</span>
         </div>
         <form method="post" action="{{ path('app_theme') }}">
-            <select name="selected_theme">
+            <button class="btn btn-outline-info btn-sm" id="shadowBtn" type="submit">Thèmes</button>
+            <select id="selectBar" style="width:100px" name="selected_theme">
+                <option value="" disabled selected hidden>Choisissez</option>
                 <option value="theme1">Theme 1</option>
                 <option value="theme2">Theme 2</option>
             </select>
-            <button type="submit" class="btn btn-primary">Change Theme</button>
         </form>
     </footer>
 </div>
