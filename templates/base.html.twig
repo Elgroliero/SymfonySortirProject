@@ -28,7 +28,9 @@
             <li><a href="{{ url('group_list') }}" class="btn nav-link px-2">Mes groupes</a></li>
         </ul>
 
-        <p class=" col-md-3 text-end">Bonjour <strong>{{ app.user.username|capitalize }}</strong> !</p>
+        {% if is_granted('IS_AUTHENTICATED') %}
+            <p class=" col-md-3 text-end">Bonjour <strong>{{ app.user.username|capitalize }}</strong> !</p>
+        {% endif %}
 
         <div class="col-md-2 text-end">
             {% if not is_granted('IS_AUTHENTICATED') %}
