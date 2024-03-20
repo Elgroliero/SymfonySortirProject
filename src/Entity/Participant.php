@@ -77,12 +77,16 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Groups::class, mappedBy: 'participants')]
     private Collection $groupes;
 
+    #[ORM\OneToMany(targetEntity: Groups::class, mappedBy: 'groupCreator')]
+    private Collection $groupsCreated;
+
     public function __construct()
     {
         $this->sortiesInscri = new ArrayCollection();
         $this->sortieOrga = new ArrayCollection();
         $this->roles = ['ROLE_USER'];
         $this->groupes = new ArrayCollection();
+        $this->groupsCreated = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -320,6 +324,36 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->groupes->removeElement($groupe)) {
             $groupe->removeParticipant($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Groups>
+     */
+    public function getGroupsCreated(): Collection
+    {
+        return $this->groupsCreated;
+    }
+
+    public function addGroupsCreated(Groups $groupsCreated): static
+    {
+        if (!$this->groupsCreated->contains($groupsCreated)) {
+            $this->groupsCreated->add($groupsCreated);
+            $groupsCreated->setGroupCreator($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGroupsCreated(Groups $groupsCreated): static
+    {
+        if ($this->groupsCreated->removeElement($groupsCreated)) {
+            // set the owning side to null (unless already changed)
+            if ($groupsCreated->getGroupCreator() === $this) {
+                $groupsCreated->setGroupCreator(null);
+            }
         }
 
         return $this;

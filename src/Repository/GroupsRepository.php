@@ -22,11 +22,13 @@ class GroupsRepository extends ServiceEntityRepository
     }
 
 
-    public function findByUser($userId) {
+    public function findByUserAndCreator($userId) {
         return $this->createQueryBuilder('g')
             ->leftJoin('g.participants', 'p')
             ->andWhere('p.id = :userId')
             ->setParameter('userId', $userId)
+            ->orWhere('g.groupCreator = :userCreator')
+            ->setParameter('userCreator', $userId)
             ->getQuery()
             ->getResult();
     }

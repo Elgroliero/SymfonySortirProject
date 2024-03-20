@@ -25,6 +25,9 @@ class SortieFiltreType extends AbstractType
                 'choice_label' => 'name',
                 'placeholder' => ' --Choisir un site-- ',
                 'required' => false,
+                'attr' => [
+                    'class' => 'form-control'
+                ]
             ])
 
 
@@ -79,13 +82,12 @@ class SortieFiltreType extends AbstractType
                     'class' => 'form-check-input'
                 ]
             ])
-        ->add('rechercher', SubmitType::class, [
-        'label' => 'Rechercher',
-        'attr' => [
-            'class' => 'btn btn-primary'
-        ]
-    ]);
-
+            ->add('rechercher', SubmitType::class, [
+                'label' => 'Rechercher',
+                'attr' => [
+                    'class' => 'btn btn-primary'
+                ]
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

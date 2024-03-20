@@ -23,10 +23,9 @@ class GroupController extends AbstractController
     public function index(GroupsRepository $gr, Request $request): Response
     {
 
-        $user = $this->getUser()
-            ->getId();
+        $user = $this->getUser();
 
-        $groups = $gr->findByUser($user);
+        $groups = $gr->findByUserAndCreator($user);
 
         return $this->render('groups/listgroups.html.twig', [
             'groups' => $groups
@@ -38,6 +37,10 @@ class GroupController extends AbstractController
     public function create(EntityManagerInterface $entityManager, Request $request): Response
     {
         $group = new Groups();
+
+        $creator = $this->getUser();
+        $group->setGroupCreator($creator);
+
         $formGroup = $this->createForm(GroupType::class, $group);
 
         $formGroup->handleRequest($request);

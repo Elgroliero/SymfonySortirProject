@@ -22,6 +22,9 @@ class Groups
     #[ORM\ManyToMany(targetEntity: Participant::class, inversedBy: 'groupes')]
     private Collection $participants;
 
+    #[ORM\ManyToOne(inversedBy: 'groupsCreated')]
+    private ?Participant $groupCreator = null;
+
     public function __construct()
     {
         $this->participants = new ArrayCollection();
@@ -64,6 +67,18 @@ class Groups
     public function removeParticipant(Participant $participant): static
     {
         $this->participants->removeElement($participant);
+
+        return $this;
+    }
+
+    public function getGroupCreator(): ?Participant
+    {
+        return $this->groupCreator;
+    }
+
+    public function setGroupCreator(?Participant $groupCreator): static
+    {
+        $this->groupCreator = $groupCreator;
 
         return $this;
     }

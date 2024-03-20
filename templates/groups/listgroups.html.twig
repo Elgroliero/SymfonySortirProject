@@ -7,6 +7,11 @@
                 <tr>
                     <th scope="row">Nom du groupe : </th>
                     <td>{{ group.nom }}</td>
+
+                </tr>
+                <tr>
+                    <th scope="row">Créateur : </th>
+                    <td><a href="{{ path('profile_users', {'id': group.groupCreator.id}) }}" type="button" class="btn btn-outline-primary btn-sm">{{ group.groupCreator.username }}</a></td>
                 </tr>
                 <tr>
                     <th scope="row">Action :</th>

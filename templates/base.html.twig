@@ -28,7 +28,9 @@
             <li><a href="{{ url('group_list') }}" class="btn nav-link px-2">Mes groupes</a></li>
         </ul>
 
-        <div class="col-md-3 text-end">
+        <p class=" col-md-3 text-end">Bonjour <strong>{{ app.user.username|capitalize }}</strong> !</p>
+
+        <div class="col-md-2 text-end">
             {% if not is_granted('IS_AUTHENTICATED') %}
                 <a type="button" href="{{ path('app_login') }}" class="btn btn-outline-primary me-2">Connexion</a>
                 <a href="{{ path('app_register') }}" type="button" class="btn btn-primary">Inscription</a>
@@ -69,7 +71,7 @@
                 <option value="theme1">Theme 1</option>
                 <option value="theme2">Theme 2</option>
             </select>
-            <button type="submit">Change Theme</button>
+            <button type="submit" class="btn btn-primary">Change Theme</button>
         </form>
     </footer>
 </div>

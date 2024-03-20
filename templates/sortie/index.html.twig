@@ -3,6 +3,8 @@
 
 {% block body %}
 
+<h5 class="col-md-10 text-end">Date du jour : {{ 'now'|date('d/m/Y') }}</h5>
+
 <h1 class="justify-content-center fw-bold">Bienvenue sur notre site</h1>
     <hr>
     <div class="d-grid gap-3">
@@ -64,11 +66,11 @@
                     {% endif %}
                     {% if app.user not in sortie.participants %}
                         {% if sortie.etat.name == 'Ouverte' %}
-                            <a href="{{ url('home_register',{'id':sortie.id}) }}" class="btn btn-primary btn-sm" type="button"> s'inscrire</a>
+                            <a href="{{ url('home_register',{'id':sortie.id}) }}" class="btn btn-primary btn-sm" type="button">S'inscrire</a>
                         {% endif %}
                     {% else %}
                         {% if sortie.etat.name == 'Ouverte' or sortie.etat.name == 'Clôturée' %}
-                            <a href="{{ url('home_unsub',{'id':sortie.id} ) }}" class="btn btn-danger btn-sm" type="button">se désinscrire</a>
+                            <a href="{{ url('home_unsub',{'id':sortie.id} ) }}" class="btn btn-danger btn-sm" type="button">Se désinscrire</a>
                         {% endif %}
                     {% endif %}
                 </div>
