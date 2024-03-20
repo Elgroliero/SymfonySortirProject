@@ -3,8 +3,12 @@
 {% form_theme formGroup 'bootstrap_4_layout.html.twig' %}
 
 {% block body %}
-    <h2>Créer un groupe</h2>
-    {{ form(formGroup) }}
+    <div class="boxShadow">
+        <h2 class="center">Créer un groupe</h2>
+        {{ form(formGroup) }}
+        <div class="center">
+            <a href="{{ path('group_list') }}" class="btn btn-secondary">Retour aux groupes</a>
+        </div>
 
-    <a href="{{ path('group_list') }}" class="btn btn-secondary">Retour aux groupes</a>
+    </div>
 {% endblock %}

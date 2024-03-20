@@ -1,24 +1,33 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>{{ group.nom }}</h1>
-    <table class="table">
-        <tr>
-            <th scope="raw">Créateur du groupe : </th>
-            <td><a href="{{ path('profile_users', {'id': group.groupCreator.id}) }}" type="button" class="btn btn-outline-primary btn-sm">{{ group.groupCreator.username }}</a></td>
-        </tr>
-    <table class="table">
+<div class="boxShadow">
+    <h1 class="center">{{ group.nom }}</h1>
+        <table class="table">
+            <tr>
+                <th scope="raw">Créateur du groupe : </th>
+                <td><a href="{{ path('profile_users', {'id': group.groupCreator.id}) }}" type="button" class="btn btn-outline btn-sm">{{ group.groupCreator.username }}</a></td>
+            </tr>
+        </table>
+        <table class="table">
             <tr>
                 <th scope="col">NOM Prénom</th>
                 <th scope="col">Pseudo</th>
             </tr>
-        {% for membre in group.participants %}
-            <tr>
+            {% for membre in group.participants %}
+                <tr>
                     <td>{{ membre.lastname|upper }} {{ membre.firstname }}</td>
-                    <td><a href="{{ path('profile_users', {'id': membre.id}) }}" type="button" class="btn-outline-primary btn-sm btn">{{ membre.username }}</a></td>
-            </tr>
-        {% endfor %}
-    </table>
+                    <td><a href="{{ path('profile_users', {'id': membre.id}) }}" type="button" class="btn btn-outline btn-sm">{{ membre.username }}</a></td>
+                </tr>
+            {% endfor %}
+        </table>
 
-    <a href="{{ path('group_list') }}" class="btn btn-primary">Retour aux groupes</a>
+    <div class="center">
+        <a href="{{ path('group_list') }}" class="btn btn-primary">Retour aux groupes</a>
+    </div>
+
+
+
+</div>
+
 {% endblock %}

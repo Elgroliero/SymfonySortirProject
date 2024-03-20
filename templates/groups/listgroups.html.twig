@@ -2,7 +2,10 @@
 
 {% block body %}
     <div class="boxShadow">
-        <a href="{{ path('group_create') }}" type="button" class="btn btn-primary">Créer un groupe</a>
+        <div class="center">
+            <a href="{{ path('group_create') }}" type="button" class="btn btn-primary">Créer un groupe</a>
+        </div>
+
         {% for group in groups %}
             <table class="table">
                 <tr>
@@ -12,7 +15,7 @@
                 </tr>
                 <tr>
                     <th scope="row">Créateur : </th>
-                    <td><a href="{{ path('profile_users', {'id': group.groupCreator.id}) }}" type="button" class="btn btn-outline-primary btn-sm">{{ group.groupCreator.username }}</a></td>
+                    <td><a href="{{ path('profile_users', {'id': group.groupCreator.id}) }}" type="button" class="btn btn-outline btn-sm">{{ group.groupCreator.username }}</a></td>
                 </tr>
                 <tr>
                     <th scope="row">Action :</th>
