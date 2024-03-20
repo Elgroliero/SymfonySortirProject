@@ -12,6 +12,9 @@
     {% block javascripts %}
         {% block importmap %}{{ importmap('app') }}{% endblock %}
     {% endblock %}
+    <!-- Inclue le fichier css pour le thème choisi -->
+    {% set selectedTheme = app.session.get('selected_theme', 'theme1') %}
+    <link rel="stylesheet" href="{{ asset('css/' ~ selectedTheme ~ '.css') }}">
 </head>
 <body>
 <div class="container w-100 p-0 m-1">
@@ -20,9 +23,9 @@
             <img id="logo" src="{{ asset('images/Logo_Eni_Sorties.png') }}" />
         </a>
         <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-            <li><a href="/" class="btn nav-link px-2 link-dark">Accueil</a></li>
-            <li><a href="{{ url('profile_user') }}" class="btn nav-link px-2 link-dark">Profil</a></li>
-            <li><a href="{{ url('group_list') }}" class="btn nav-link px-2 link-dark">Mes groupes</a></li>
+            <li><a href="/" class="btn nav-link px-2">Accueil</a></li>
+            <li><a href="{{ url('profile_user') }}" class="btn nav-link px-2">Profil</a></li>
+            <li><a href="{{ url('group_list') }}" class="btn nav-link px-2">Mes groupes</a></li>
         </ul>
 
         <div class="col-md-3 text-end">
@@ -64,7 +67,13 @@
             </a>
             <span class="mb-3 mb-md-0 text-muted">© {{ "now"|date('Y') }} ENI, Inc</span>
         </div>
-
+        <form method="post" action="{{ path('app_theme') }}">
+            <select name="selected_theme">
+                <option value="theme1">Theme 1</option>
+                <option value="theme2">Theme 2</option>
+            </select>
+            <button type="submit">Change Theme</button>
+        </form>
         <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
             <li class="ms-3"><a class="text-muted" href="#">
                     <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" class="bi" height="24"
