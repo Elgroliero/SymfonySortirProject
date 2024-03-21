@@ -31,13 +31,14 @@
     </script>
     <button type="submit" class="btn btn-primary" formaction="{{ url('home_create',{'etat' : 1}) }}">Creer</button>
     <button type="submit" class="btn btn-primary" formaction="{{ url('home_create',{'etat' : 2}) }}">Publier</button>
-    {{ form_end(form) }}
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalLieu">
         Créer un lieu
     </button>
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalVille">
         Créer une ville
     </button>
+    {{ form_end(form) }}
+
 
     <!-- Modal -->
     <div class="modal fade" id="modalLieu" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

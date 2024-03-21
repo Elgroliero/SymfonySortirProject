@@ -36,7 +36,7 @@ class SortieController extends AbstractController
     {
         $formFilter = $this->createForm(SortieFiltreType::class);
         $formFilter->handleRequest($request);
-        $userID = $this->getUser()->getId();
+        $userID = $this->getUser();
         $dateNow = new \DateTime('now');
         //Validation du formulaire de recherche
         $session = $request->getSession();
@@ -82,6 +82,7 @@ class SortieController extends AbstractController
 
     #[Route('/create', name: '_create',methods: ['GET','POST'])]
     public function create(EtatRepository $er,EntityManagerInterface $em,Request $request, SluggerInterface $slugger):response{
+
         $lieu = new Lieu();
 
         $formLieu =$this->createForm(LieuType::class, $lieu);

@@ -20,11 +20,10 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class GroupController extends AbstractController
 {
     #[Route('', name: '_list')]
-    public function index(GroupsRepository $gr, Request $request): Response
+    public function index(GroupsRepository $gr): Response
     {
 
         $user = $this->getUser();
-
         $groups = $gr->findByUserAndCreator($user);
 
         return $this->render('groups/listgroups.html.twig', [
