@@ -13,6 +13,22 @@
         {{ form_row(form.description) }}
         {{ form_row(form.site) }}
         {{ form_row(form.lieu) }}
+    <p id="infoLieu"></p>
+    <script>
+        let value = 0;
+        document.querySelector('#sortie_lieu').addEventListener("change", ()=> {
+            value = document.querySelector('#sortie_lieu').value;
+            const url = "{{ path('lieu_show',{'id': 'value'}) }}".replace('value',value);
+            let p;
+            fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        p = document.querySelector('#infoLieu');
+                        p.innerHTML = 'Nom du lieu : '+data.name + "<br> Localisation : "+data.street+ "<br> Ville : "+data.ville;
+                    })
+                    .catch(e => p = document.querySelector('#infoLieu').innerHTML ="")
+        })
+    </script>
     <button type="submit" class="btn btn-primary" formaction="{{ url('home_create',{'etat' : 1}) }}">Creer</button>
     <button type="submit" class="btn btn-primary" formaction="{{ url('home_create',{'etat' : 2}) }}">Publier</button>
     {{ form_end(form) }}

@@ -82,7 +82,6 @@ class SortieController extends AbstractController
 
     #[Route('/create', name: '_create',methods: ['GET','POST'])]
     public function create(EtatRepository $er,EntityManagerInterface $em,Request $request, SluggerInterface $slugger):response{
-
         $lieu = new Lieu();
 
         $formLieu =$this->createForm(LieuType::class, $lieu);
@@ -156,7 +155,7 @@ class SortieController extends AbstractController
             if($sortie->getOrganisateur()->getId() == $this->getUser()->getid() || $this->getUser()->getRoles()[0] == 'ROLE_ADMIN') {
 
 
-                if ($sortie->getEtat()->getName() == 'Ouverte' || $sortie->getEtat()->getName() == 'Clôturée') {
+                if ($sortie->getEtat()->getName() == 'Ouverte' || $sortie->getEtat()->getName() == 'Clôturée' || $sortie->getEtat()->getName() == 'Créée') {
                     $sortie->setEtat($er->findOneBy(['id' => 6]));
                     $em->persist($sortie);
                     $em->flush();
