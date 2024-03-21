@@ -27,6 +27,7 @@ class SortieRepository extends ServiceEntityRepository
     }
 
     public function subscribe(Sortie $entity,EntityManagerInterface $entityManager, Participant $participant): bool{
+        $this->updateSortieState($entity,$entityManager,$entityManager->getRepository(Etat::class));
        if($entity->getMaxInscriptionNb() > count($entity->getParticipants()) && $entity->getEtat()->getName()==='Ouverte'){
         $entity->addParticipant($participant);
        $entityManager->persist($entity);
@@ -38,6 +39,7 @@ class SortieRepository extends ServiceEntityRepository
     }
 
     public function unSubscribe(Sortie $entity,EntityManagerInterface $entityManager, Participant $participant): bool{
+        $this->updateSortieState($entity,$entityManager,$entityManager->getRepository(Etat::class));
         $etat = $entity->getEtat()->getName();
         if($etat === 'Ouverte'|| $etat === 'Clôturée'){
             $entity->removeParticipant($participant);
