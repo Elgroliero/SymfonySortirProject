@@ -83,11 +83,17 @@ body#tinymce {
 }
 
 #selectBar {
-    border-style: solid;
-    margin-top: 5px;
-    padding: 2%;
-    box-shadow: black;
+    border-radius: 10px;
+    padding: 5px;
 }
+
+#btn-back-to-top {
+    position: fixed;
+    bottom: 100px;
+    right: 50px;
+    display: none;
+}
+
 /*
 -----------------------------------------
 -------------thèmes----------------------

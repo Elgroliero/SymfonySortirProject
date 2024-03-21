@@ -1,12 +1,13 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-
-    {% form_theme form 'bootstrap_5_layout.html.twig' %}
-        <p>{{ sortie.name }}</p>
+    <div class="boxShadow">
+        {% form_theme form 'bootstrap_5_layout.html.twig' %}
+        <p>{{ sortie.name|capitalize }}</p>
         <p>{{ sortie.description }}</p>
         <p>{{ sortie.lieu.street }} {{ sortie.lieu.ville.name }} {{ sortie.lieu.ville.postalCode }}</p>
         {{ form(form) }}
+    </div>
 
 {% endblock %}
 

@@ -3,10 +3,13 @@
 {% form_theme formGroup 'bootstrap_4_layout.html.twig' %}
 
 {% block body %}
+
+    <h2 class="center">Créer un groupe</h2>
     <div class="boxShadow">
-        <h2 class="center">Créer un groupe</h2>
-        {{ form(formGroup) }}
-        <div class="center">
+        <div class="d-flex justify-content-center">
+            {{ form(formGroup) }}
+        </div>
+        <div class="d-flex justify-content-center">
             <a href="{{ path('group_list') }}" class="btn btn-secondary">Retour aux groupes</a>
         </div>
 

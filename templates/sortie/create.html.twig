@@ -1,9 +1,21 @@
 {% extends 'base.html.twig' %}
 {% block body %}
+
+    <h1 class="center">Créer une sortie</h1>
+    <div class="boxShadow">
+    <div class="d-flex justify-content-center">
     {% form_theme form 'bootstrap_5_layout.html.twig' %}
     {% form_theme formLieu 'bootstrap_5_layout.html.twig' %}
     {% form_theme formVille 'bootstrap_5_layout.html.twig' %}
     {{form_start(form) }}
+        <div class="center">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalLieu">
+                Créer un lieu
+            </button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalVille">
+                Créer une ville
+            </button>
+        </div>
         {{ form_row(form.name) }}
         {{ form_row(form.picture) }}
         {{ form_row(form.dateTimeStart) }}
@@ -13,7 +25,9 @@
         {{ form_row(form.description) }}
         {{ form_row(form.site) }}
         {{ form_row(form.lieu) }}
+
     <p id="infoLieu"></p>
+    </div>
     <script>
         let value = 0;
         document.querySelector('#sortie_lieu').addEventListener("change", ()=> {
@@ -29,40 +43,37 @@
                     .catch(e => p = document.querySelector('#infoLieu').innerHTML ="")
         })
     </script>
-    <button type="submit" class="btn btn-primary" formaction="{{ url('home_create',{'etat' : 1}) }}">Creer</button>
-    <button type="submit" class="btn btn-primary" formaction="{{ url('home_create',{'etat' : 2}) }}">Publier</button>
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalLieu">
-        Créer un lieu
-    </button>
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalVille">
-        Créer une ville
-    </button>
+        <div class="center">
+            <button type="submit" class="btn btn-primary" formaction="{{ url('home_create',{'etat' : 1}) }}">Créer</button>
+            <button type="submit" class="btn btn-primary" formaction="{{ url('home_create',{'etat' : 2}) }}">Publier</button>
+        </div>
     {{ form_end(form) }}
 
 
-    <!-- Modal -->
-    <div class="modal fade" id="modalLieu" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Créer un nouveau lieu</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    {{ form(formLieu) }}
+        <!-- Modal -->
+        <div class="modal fade" id="modalLieu" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Créer un nouveau lieu</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {{ form(formLieu) }}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="modal fade" id="modalVille" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Ajouter une ville</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    {{ form(formVille) }}
+        <div class="modal fade" id="modalVille" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Ajouter une ville</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {{ form(formVille) }}
+                    </div>
                 </div>
             </div>
         </div>
