@@ -2,11 +2,14 @@
 {% block body %}
 
     <h1 class="center">Créer une sortie</h1>
+
     <div class="boxShadow">
+
     <div class="d-flex justify-content-center">
     {% form_theme form 'bootstrap_5_layout.html.twig' %}
     {% form_theme formLieu 'bootstrap_5_layout.html.twig' %}
     {% form_theme formVille 'bootstrap_5_layout.html.twig' %}
+
     {{form_start(form) }}
         <div class="center">
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalLieu">
@@ -51,29 +54,30 @@
 
 
         <!-- Modal -->
-        <div class="modal fade" id="modalLieu" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">Créer un nouveau lieu</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        {{ form(formLieu) }}
-                    </div>
+
+    </div>
+    <div class="modal fade" id="modalLieu" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Créer un nouveau lieu</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {{ form(formLieu) }}
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="modalVille" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">Ajouter une ville</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        {{ form(formVille) }}
-                    </div>
+    </div>
+    <div class="modal fade" id="modalVille" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Ajouter une ville</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {{ form(formVille) }}
                 </div>
             </div>
         </div>
