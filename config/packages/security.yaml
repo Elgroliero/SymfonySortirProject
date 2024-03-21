@@ -15,12 +15,14 @@ security:
             security: false
         main:
             lazy: true
+            user_checker: App\Security\ActiveUserChecker
             provider: app_user_provider
             custom_authenticator: App\Security\RegistrationAuthenticator
             logout:
                 path: app_logout
                 # where to redirect after logout
                 # target: app_any_route
+
 
 
             remember_me:

@@ -36,7 +36,7 @@ class SortieController extends AbstractController
     {
         $formFilter = $this->createForm(SortieFiltreType::class);
         $formFilter->handleRequest($request);
-        $userID = $this->getUser()->getId();
+        $userID = $this->getUser();
         $dateNow = new \DateTime('now');
         //Validation du formulaire de recherche
         $session = $request->getSession();
@@ -156,7 +156,7 @@ class SortieController extends AbstractController
             if($sortie->getOrganisateur()->getId() == $this->getUser()->getid() || $this->getUser()->getRoles()[0] == 'ROLE_ADMIN') {
 
 
-                if ($sortie->getEtat()->getName() == 'Ouverte' || $sortie->getEtat()->getName() == 'Clôturée') {
+                if ($sortie->getEtat()->getName() == 'Ouverte' || $sortie->getEtat()->getName() == 'Clôturée' || $sortie->getEtat()->getName() == 'Créée') {
                     $sortie->setEtat($er->findOneBy(['id' => 6]));
                     $em->persist($sortie);
                     $em->flush();

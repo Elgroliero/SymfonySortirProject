@@ -178,8 +178,8 @@ class SortieRepository extends ServiceEntityRepository
             ->setFirstResult($maxResults*($page-1))
             ->setMaxResults($maxResults);
             //retourner le résultat
-
-             return [$query->getQuery()->getResult(),count(new Paginator($query,true))];
+        $ah = new Paginator($query,true);
+             return [$ah->getQuery()->getResult(),count($ah)];
     }
 
 
