@@ -6,20 +6,22 @@
 
 {% block body %}
     <h1 class="center">Inscription</h1>
-    <div class="d-flex justify-content-center boxShadow">
-        {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.firstname, { 'attr': { 'value': 'Toto' } }) }}
-        {{ form_row(registrationForm.lastname, { 'attr': { 'value': 'Zobi' } }) }}
-        {{ form_row(registrationForm.username, { 'attr': { 'value': 'totozobi' } }) }}
-        {{ form_row(registrationForm.email, { 'attr': { 'value': 'toto@sortir.com' } }) }}
-        {{ form_row(registrationForm.plainPassword, { 'attr': { 'value': 'totozobi' } }) }}
-        {{ form_row(registrationForm.phoneNumber, { 'attr': { 'value': '0606060606' } }) }}
-        {{ form_row(registrationForm.site, { 'attr': { 'value': 'site' } }) }}
-        {{ form_row(registrationForm.image) }}
-        <div class="center">
-            {{ form_row((registrationForm.submit)) }}
+    <div class="boxShadow">
+        <div class="d-flex justify-content-center">
+            {{ form_start(registrationForm) }}
+            {{ form_row(registrationForm.firstname, { 'attr': { 'value': 'Toto' } }) }}
+            {{ form_row(registrationForm.lastname, { 'attr': { 'value': 'Zobi' } }) }}
+            {{ form_row(registrationForm.username, { 'attr': { 'value': 'totozobi' } }) }}
+            {{ form_row(registrationForm.email, { 'attr': { 'value': 'toto@sortir.com' } }) }}
+            {{ form_row(registrationForm.plainPassword, { 'attr': { 'value': 'totozobi' } }) }}
+            {{ form_row(registrationForm.phoneNumber, { 'attr': { 'value': '0606060606' } }) }}
+            {{ form_row(registrationForm.site, { 'attr': { 'value': 'site' } }) }}
+            {{ form_row(registrationForm.image) }}
+            <div class="center">
+                {{ form_row((registrationForm.submit)) }}
+            </div>
+            {{ form_end(registrationForm) }}
         </div>
-        {{ form_end(registrationForm) }}
     </div>
 
 

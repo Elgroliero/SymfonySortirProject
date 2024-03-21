@@ -1,39 +1,41 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <h2 class="center">Profil de : {{ participant.username }}</h2>
 <div class="boxShadow">
-    <h2 class="center">{{ participant.username }}</h2>
 
     <div class="center">
         {% if participant.image is not empty %}
             <img src="{{ asset(picture_dir ~ '/' ~ participant.image) }}" alt="{{ participant.username }}" width="150px"/>
         {% endif %}
     </div>
+    <div class="d-flex justify-content-center">
+        <table class="table">
+            <tr>
+                <th scope="row">Prénom : </th>
+                <td>{{ participant.firstname }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Nom : </th>
+                <td>{{ participant.lastname }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Téléphone : </th>
+                <td>{{ participant.phoneNumber }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Email : </th>
+                <td>{{ participant.email }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Campus : </th>
+                <td>{{ participant.site.name }}</td>
+            </tr>
+        </table>
+    </div>
 
-    <table class="table">
-        <tr>
-            <th scope="row">Prénom : </th>
-            <td>{{ participant.firstname }}</td>
-        </tr>
-        <tr>
-            <th scope="row">Nom : </th>
-            <td>{{ participant.lastname }}</td>
-        </tr>
-        <tr>
-            <th scope="row">Téléphone : </th>
-            <td>{{ participant.phoneNumber }}</td>
-        </tr>
-        <tr>
-            <th scope="row">Email : </th>
-            <td>{{ participant.email }}</td>
-        </tr>
-        <tr>
-            <th scope="row">Site de rattachement : </th>
-            <td>{{ participant.site.name }}</td>
-        </tr>
-    </table>
     <div class="center">
-        <button type="button" class="btn btn-primary" onClick="window.history.back();">Go back</button>
+        <button type="button" class="btn btn-primary" onClick="window.history.back();">Retour</button>
     </div>
 
 </div>

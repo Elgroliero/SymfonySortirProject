@@ -63,7 +63,7 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('site', EntityType::class, [
                 'class' => Site::class,
-                'label' => 'Site de rattachement',
+                'label' => 'Campus',
                 'choice_label' => 'name',
             ])
             ->add('image', FileType::class, [

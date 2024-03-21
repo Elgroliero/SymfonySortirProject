@@ -3,12 +3,13 @@
 {% form_theme formGroup 'bootstrap_4_layout.html.twig' %}
 
 {% block body %}
+    <h2 class="center">Créer un groupe</h2>
     <div class="boxShadow">
-        <h2 class="center">Créer un groupe</h2>
         <div class="d-flex justify-content-center">
             {{ form_start(formGroup) }}
                 {{ form_row(formGroup.nom) }}
                 {{ form_row(formGroup.participants) }}
+            <br>
                 <div class="center">
                     {{ form_row(formGroup.submit) }}
                     <br>

@@ -1,8 +1,8 @@
 {%  extends "base.html.twig" %}
 
 {% block body %}
+    <h1 class="center">Fiche sortie n°{{ sortie.id }}</h1>
     <div class="boxShadow">
-        <h1 class="center">La sortie</h1>
 
     {% if sortie.picture is not empty %}
         <img src="{{ asset(image_dir ~ '/' ~ sortie.picture) }}" alt="{{ sortie.name|capitalize }}" width="400px"/>
