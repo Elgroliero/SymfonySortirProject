@@ -3,18 +3,15 @@
 {% block body %}
     <h1 class="justify-content-center">La sortie</h1>
 
+    {% if sortie.picture is not empty %}
+        <img src="{{ asset(image_dir ~ '/' ~ sortie.picture) }}" alt="{{ sortie.name|capitalize }}" width="400px"/>
+    {% endif %}
+
     <table class="table">
             <tbody>
             <tr>
                 <th scope="row" style="min-width: 200px">Nom de la sortie : </th>
                 <td>{{ sortie.name }}</td>
-            </tr><tr>
-                <th scope="row" style="min-width: 200px">Illustration : </th>
-                <td>
-                    {% if sortie.picture is not empty %}
-                        <img src="{{ asset(image_dir ~ '/' ~ sortie.picture) }}" alt="{{ sortie.name|capitalize }}" width="150px"/>
-                    {% endif %}
-                </td>
             </tr>
             <tr>
                 <th scope="row">Date et heure de la sortie : </th>

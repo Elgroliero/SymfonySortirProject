@@ -41,6 +41,8 @@
             <div class="card margin-x" id="fondCard" style="width: 32%">
                 {% if sortie.picture %}
                     <img src="{{ asset(image_dir ~ '/' ~ sortie.picture) }}" class="card-img-top" alt="{{ sortie.name }}">
+                {% else %}
+                    <img src="{{ asset(image_dir ~ '/' ~ 'default.png') }}" class="card-img-top" alt="{{ sortie.name }}">
                 {% endif %}
                 <div class="card-body">
                     <h5 class="card-title">{{ sortie.name|capitalize }}</h5>
