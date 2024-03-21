@@ -1,9 +1,10 @@
 {%  extends "base.html.twig" %}
 
 {% block body %}
-    <h1 class="justify-content-center">La sortie</h1>
+    <div class="boxShadow">
+        <h1 class="center">La sortie</h1>
 
-    <table class="table">
+        <table class="table">
             <tbody>
             <tr>
                 <th scope="row" style="min-width: 200px">Nom de la sortie : </th>
@@ -60,26 +61,31 @@
                 <th scope="row">Longitude : </th>
                 <td>{{ sortie.lieu.longitude }}</td>
             </tr>
-        </tbody>
-    </table>
-    <h2 class="justify-content-center">Participants</h2>
-    <table class="table">
-        <thead>
-        <tr>
-            <th scope="col">Pseudo</th>
-            <th scope="col">Nom</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for participant in sortie.participants %}
+            </tbody>
+        </table>
+        <h2 class="center">Participants</h2>
+        <table class="table">
+            <thead>
             <tr>
-                <td><a href="{{ url('profile_users', {'id':  participant.id }) }}"  class="btn btn-primary">{{ participant.username }}</a></td>
-                <td>{{ participant.firstname }} {{ participant.lastname|upper }}</td>
+                <th scope="col">Pseudo</th>
+                <th scope="col">Nom</th>
             </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            {% for participant in sortie.participants %}
+                <tr>
+                    <td><a href="{{ url('profile_users', {'id':  participant.id }) }}"  class="btn btn-primary">{{ participant.username }}</a></td>
+                    <td>{{ participant.firstname }} {{ participant.lastname|upper }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
 
-    <a href="{{ url('home_home') }}" class="btn btn-primary">Retour à l'accueil</a>
+        <div class="center">
+            <a href="{{ url('home_home') }}" class="btn btn-primary">Retour à l'accueil</a>
+        </div>
+
+
+    </div>
 
 {% endblock %}

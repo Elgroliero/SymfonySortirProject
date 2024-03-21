@@ -69,18 +69,53 @@
             <span class="mb-3 mb-md-0 text-muted">© {{ "now"|date('Y') }} ENI, Inc</span>
         </div>
         <form method="post" action="{{ path('app_theme') }}">
-            <button class="btn btn-outline-info btn-sm" id="shadowBtn" type="submit">Thèmes</button>
+            <button class="btn btn-outline-info btn-sm" id="shadowBtn" type="submit">Choisir</button>
             <select id="selectBar" style="width:100px" name="selected_theme">
-                <option value="" disabled selected hidden>Choisissez</option>
+                <option value="" disabled selected hidden>Thèmes :</option>
                 <option value="theme1">Theme 1</option>
                 <option value="theme2">Theme 2</option>
+                <option value="theme2">Theme 3</option>
+                <option value="theme2">Theme 4</option>
             </select>
         </form>
     </footer>
 </div>
 
+<!-- Back to top button -->
+<button type="button" class="btn btn-outline btn-floating btn-lg" id="btn-back-to-top">
+    <i class='far fa-arrow-alt-circle-up' style='font-size:48px;color:green'></i>
+</button>
+
+<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
         integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
         crossorigin="anonymous"></script>
+<script>
+    //Get the button
+    let mybutton = document.getElementById("btn-back-to-top");
+
+    // When the user scrolls down 20px from the top of the document, show the button
+    window.onscroll = function () {
+        scrollFunction();
+    };
+
+    function scrollFunction() {
+        if (
+            document.body.scrollTop > 10 ||
+            document.documentElement.scrollTop > 10
+        ) {
+            mybutton.style.display = "block";
+        } else {
+            mybutton.style.display = "none";
+        }
+    }
+    // When the user clicks on the button, scroll to the top of the document
+    mybutton.addEventListener("click", backToTop);
+
+    function backToTop() {
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+    }
+</script>
 </body>
 </html>
