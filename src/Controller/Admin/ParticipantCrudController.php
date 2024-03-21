@@ -3,8 +3,11 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Participant;
+use App\Repository\SiteRepository;
+use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
@@ -24,10 +27,12 @@ class ParticipantCrudController extends AbstractCrudController
 {
 
     private UserPasswordHasherInterface $passwordEncoder;
+    private SiteRepository $siteRepository;
 
-    public function __construct(UserPasswordHasherInterface $passwordEncoder)
+    public function __construct(UserPasswordHasherInterface $passwordEncoder, SiteRepository $siteRepository)
     {
         $this->passwordEncoder = $passwordEncoder;
+        $this->siteRepository = $siteRepository;
     }
 
     public function configureFields(string $pageName): iterable
@@ -38,6 +43,8 @@ class ParticipantCrudController extends AbstractCrudController
             EmailField::new('email', 'Email'),
             TextField::new('firstname', 'Prénom'),
             TextField::new('lastname', 'Nom'),
+            AssociationField::new('site')->setLabel('Site'),
+//            ChoiceField::new('site', 'Site')->setChoices($this->getSiteChoices()),
             TextField::new('phoneNumber', 'Téléphone'),
             TextField::new('password', 'Mot de passe')->onlyOnForms(),
             ChoiceField::new('roles', 'Roles')->setChoices([
@@ -45,7 +52,7 @@ class ParticipantCrudController extends AbstractCrudController
                 'Administrateur' => 'ROLE_ADMIN',
             ])->allowMultipleChoices(),
             BooleanField::new('active', 'Active'),
-        ];
+            ];
     }
 
     public static function getEntityFqcn(): string
@@ -62,5 +69,15 @@ class ParticipantCrudController extends AbstractCrudController
         }
         parent::persistEntity($entityManager, $entityInstance);
 
+    }
+
+    private function getSiteChoices(): array
+    {
+        $choices = [];
+        $sites = $this->siteRepository->findAllSites();
+        foreach ($sites as $site) {
+            $choices[$site->getName()] = $site;
+        }
+        return $choices;
     }
 }

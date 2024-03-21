@@ -67,6 +67,7 @@ class AdminController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Sorties', 'fas fa-folder', Sortie::class);
         yield MenuItem::linkToCrud('Sites', 'fas fa-folder', Site::class);
         yield MenuItem::linkToCrud('Villes', 'fas fa-folder', Ville::class);
+        yield MenuItem::linkToRoute('Import CSV', 'fa fa-upload', '_loadcsv');
 
         yield MenuItem::linkToRoute('Accueil', 'fa fa-home', 'home_home');
 

@@ -45,4 +45,8 @@ class SiteRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+    public function findAllSites()
+    {$qb = $this->createQueryBuilder('s');
+        return $qb->getQuery()->getResult();
+    }
 }
