@@ -89,7 +89,7 @@ body#tinymce {
 
 #btn-back-to-top {
     position: fixed;
-    bottom: 50px;
+    bottom: 100px;
     right: 50px;
     display: none;
 }

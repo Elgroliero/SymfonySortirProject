@@ -5,8 +5,8 @@
 {% block title %}Inscription{% endblock %}
 
 {% block body %}
-    <div class="boxShadow">
-        <h1 class="center">Inscription</h1>
+    <h1 class="center">Inscription</h1>
+    <div class="d-flex justify-content-center boxShadow">
         {{ form_start(registrationForm) }}
         {{ form_row(registrationForm.firstname, { 'attr': { 'value': 'Toto' } }) }}
         {{ form_row(registrationForm.lastname, { 'attr': { 'value': 'Zobi' } }) }}

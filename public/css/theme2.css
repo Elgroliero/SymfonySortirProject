@@ -6986,14 +6986,14 @@ textarea.form-control-lg {
 }
 
 .link-dark {
-    color: RGBA(var(--bs-dark-rgb), var(--bs-link-opacity, 1)) !important;
-    -webkit-text-decoration-color: RGBA(var(--bs-dark-rgb), var(--bs-link-underline-opacity, 1)) !important;
-    text-decoration-color: RGBA(var(--bs-dark-rgb), var(--bs-link-underline-opacity, 1)) !important;
+    color: RGBA(var(--bs-light-rgb), var(--bs-link-opacity, 1)) !important;
+    -webkit-text-decoration-color: RGBA(var(--bs-light-rgb), var(--bs-link-underline-opacity, 1)) !important;
+    text-decoration-color: RGBA(var(--bs-light-rgb), var(--bs-link-underline-opacity, 1)) !important;
 }
 .link-dark:hover, .link-dark:focus {
-    color: RGBA(38, 38, 38, var(--bs-link-opacity, 1)) !important;
-    -webkit-text-decoration-color: RGBA(38, 38, 38, var(--bs-link-underline-opacity, 1)) !important;
-    text-decoration-color: RGBA(38, 38, 38, var(--bs-link-underline-opacity, 1)) !important;
+    color: RGBA(138, 145, 151, var(--bs-link-opacity, 1)) !important;
+    -webkit-text-decoration-color: RGBA(138, 145, 151, var(--bs-link-underline-opacity, 1)) !important;
+    text-decoration-color: RGBA(138, 145, 151, var(--bs-link-underline-opacity, 1)) !important;
 }
 
 .link-body-emphasis {

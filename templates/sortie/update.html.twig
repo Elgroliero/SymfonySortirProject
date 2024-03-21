@@ -1,23 +1,26 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    {% form_theme form 'bootstrap_5_layout.html.twig' %}
-    {{form_start(form) }}
-        {{ form_row(form.name) }}
-        {{ form_row(form.dateTimeStart) }}
-        {{ form_row(form.duration) }}
-        {{ form_row(form.dateInscriptionLimit) }}
-        {{ form_row(form.maxInscriptionNb) }}
-        {{ form_row(form.description) }}
-        {{ form_row(form.lieu) }}
-        {{ form_row(form.site) }}
-        {{ form_row(form.picture) }}
-        <button type="submit" class="btn btn-primary">Enregistrer</button>
-        <a href="{{ url('home_publish',{'id':sortie.id}) }}" class="btn btn-primary">Publier</a>
-        {% if app.user.id == sortie.organisateur.id or is_granted('ROLE_ADMIN') %}
-            <a href="{{ url('home_delete',{'id':sortie.id}) }}" class="btn btn-danger">Annuler</a>
-        {% endif %}
-    {{ form_end(form) }}
+    <div class="boxShadow">
+        <h1 class="center">Modifier une sortie</h1>
+        {% form_theme form 'bootstrap_5_layout.html.twig' %}
+        {{form_start(form) }}
+            {{ form_row(form.name) }}
+            {{ form_row(form.dateTimeStart) }}
+            {{ form_row(form.duration) }}
+            {{ form_row(form.dateInscriptionLimit) }}
+            {{ form_row(form.maxInscriptionNb) }}
+            {{ form_row(form.description) }}
+            {{ form_row(form.lieu) }}
+            {{ form_row(form.site) }}
+            {{ form_row(form.picture) }}
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+            <a href="{{ url('home_publish',{'id':sortie.id}) }}" class="btn btn-primary">Publier</a>
+            {% if app.user.id == sortie.organisateur.id or is_granted('ROLE_ADMIN') %}
+                <a href="{{ url('home_delete',{'id':sortie.id}) }}" class="btn btn-danger">Annuler</a>
+            {% endif %}
+        {{ form_end(form) }}
 
-{% endblock %}
+        {% endblock %}
 
+    </div>
