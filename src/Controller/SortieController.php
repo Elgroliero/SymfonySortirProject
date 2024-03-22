@@ -51,8 +51,7 @@ class SortieController extends AbstractController
             $session->set('filters' ,$data);
         }else{
             if($session->get('filters')){
-                $data = $session->get('filters');
-                $sorties = $sortieRepo->findSortiesbyFilter($data, $userID,$page);
+                $sorties = $sortieRepo->findSortiesbyFilter($session->get('filters'), $userID,$page);
             }else{
                 $sorties = $sortieRepo->findSortiesByFilter(null, $userID,$page);
             }

@@ -26,6 +26,16 @@
                 <td>{{ sortie.dateTimeStart|date ('d/m/y H:i') }}</td>
             </tr>
             <tr>
+                <th scope="row">Etat : </th>
+                <td>{{  sortie.etat.name }}</td>
+            </tr>
+            {% if sortie.motif is not empty%}
+                <tr>
+                    <th scope="row">Motif d'annulation : </th>
+                    <td>{{  sortie.motif }}</td>
+                </tr>
+            {% endif %}
+            <tr>
                 <th scope="row">Date limite d'inscription : </th>
                 <td>{{ sortie.dateInscriptionLimit|date ('d/m/y H:i') }}</td>
             </tr>
